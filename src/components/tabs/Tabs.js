@@ -5,8 +5,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
 import { Feather } from "@expo/vector-icons"
 import Main from "../../screens/main/Main"
+import Certificates from "../../screens/certificate/Certificates"
 
 const Tab = createBottomTabNavigator()
+
 function Tabs() {
   return (
     <Tab.Navigator
@@ -32,6 +34,7 @@ function Tabs() {
     >
       <Tab.Screen
         name={"Головна"}
+        component={Main}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather
@@ -41,17 +44,10 @@ function Tabs() {
             />
           ),
         }}
-      >
-        {() => (
-          <View
-            style={{ justifyContent: "center", flex: 1, alignItems: "center" }}
-          >
-            <Main />
-          </View>
-        )}
-      </Tab.Screen>
+      />
       <Tab.Screen
-        name={"Договір"}
+        name={"Сертифікати"}
+        component={Certificates}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather
@@ -61,13 +57,7 @@ function Tabs() {
             />
           ),
         }}
-      >
-        {() => (
-          <View>
-            <Text>2</Text>
-          </View>
-        )}
-      </Tab.Screen>
+      />
       <Tab.Screen
         name={"Чат"}
         options={{
