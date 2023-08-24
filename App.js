@@ -11,9 +11,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import Title from "./src/components/title/Title"
 import Main from "./src/screens/main/Main"
 import Certificates from "./src/screens/certificate/Certificates"
-import Tabs from "./src/components/tabs/Tabs"
-import Data from "./src/screens/certificate/Data"
-import Proggress from "./src/screens/certificate/Proggress"
+
 import Chat from "./src/screens/chat/Chat"
 import Settings from "./src/screens/settings/Settings"
 
@@ -23,8 +21,6 @@ const Stack = createNativeStackNavigator()
 const CertificatesStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Certificates" component={Certificates} />
-    <Stack.Screen name="Data" component={Data} />
-    <Stack.Screen name="Proggress" component={Proggress} />
   </Stack.Navigator>
 )
 
@@ -34,6 +30,7 @@ export default function App() {
       <View style={{ justifyContent: "center", flex: 1 }}>
         <Title />
         <Tab.Navigator
+          initialRouteName="Налаштування"
           screenOptions={{
             tabBarActiveTintColor: "tomato",
             tabBarInactiveTintColor: "gray",

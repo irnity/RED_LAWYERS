@@ -1,1 +1,33 @@
 "stages"
+
+console.log({
+        // (111) Порядковий номер реєстрації
+        serial_registration_number: data.registration_number,
+        // (151) Дата реєстрації
+        date_of_registration: data.registration_date,
+        // (181) Очікувана дата закінчення строку дії реєстрації
+        expiry_date: data.data.ExpiryDate,
+        // (210) Порядковий номер заявки
+        serial_number_of_the_application: data.app_number,
+        // (220) Дата подання заявки
+        application_submission_date: data.app_date,
+        // (731) Ім'я та адреса заявника
+        name_and_address_of_the_applicant: `${data.data.HolderDetails.Holder[0].HolderAddressBook.FormattedNameAddress.Address.FreeFormatAddress.FreeFormatNameLine} ${data.data.HolderDetails.Holder[0].HolderAddressBook.FormattedNameAddress.Address.FreeFormatAddress.FreeFormatAddressLine}`,
+        // (732) Ім'я та адреса володільця реєстрації
+        name_and_address_of_registration_holder: `${data.data.HolderDetails.Holder[0].HolderAddressBook.FormattedNameAddress.Address.FreeFormatAddress.FreeFormatNameLine} ${data.data.HolderDetails.Holder[0].HolderAddressBook.FormattedNameAddress.Address.FreeFormatAddress.FreeFormatAddressLine}`,
+        // (740) Ім'я та адреса представника
+        name_and_address_of_representative:
+          data.data.RepresentativeDetails.Representative[0]
+            .RepresentativeAddressBook.FormattedNameAddress.Name.FreeFormatName
+            .FreeFormatNameDetails.FreeFormatNameDetails.FreeFormatNameLine,
+      })
+
+
+            // console.log({
+      //   trademark_registered: {id:1, ...data.data.stages[0]},
+      //   preparation_for_state_registration_and_publication: {id:2, ...data.data.stages[1]},
+      //   qualification_examination: {id:3, ...data.data.stages[2]},
+      //   formal_examination: {id:4, ...data.data.stages[3]},
+      //   setting_the_submission_date: {id:5, ...data.data.stages[4]},
+      //   registration_of_primary_documents: {id:6, ...data.data.stages[5]},
+      // })

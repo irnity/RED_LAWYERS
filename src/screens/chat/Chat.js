@@ -1,11 +1,18 @@
 import React from "react"
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet, ScrollView } from "react-native"
 
 function Chat() {
   return (
-    <View>
-      <Text>Chat</Text>
-    </View>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+        }}
+      >
+        <Text>Chat</Text>
+      </View>
+    </ScrollView>
   )
 }
 

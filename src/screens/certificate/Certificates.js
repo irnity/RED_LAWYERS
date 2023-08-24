@@ -5,86 +5,156 @@ import {
   StyleSheet,
   ScrollView,
   Button,
-  TouchableOpacity,
   Pressable,
+  FlatList,
+  ActivityIndicator,
 } from "react-native"
+
+import { Feather } from "@expo/vector-icons"
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
 const CertificatesStack = createNativeStackNavigator()
 
 function Certificates({ navigation }) {
-  const [certificate, setCertificate] = useState({})
+  const [certificate, setCertificate] = useState([])
+
+  const [indicator, setIndicator] = useState(true)
 
   const fetchCertificates = async () => {
     const response = await fetch(
-      "https://sis.nipo.gov.ua/api/v1/open-data/m202011127/"
+      "https://sis.nipo.gov.ua/api/v1/open-data/m202300894/"
     )
     const data = await response.json()
     return data
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchCertificates()
-      console.log(data)
-      console.log({
-        // (111) Порядковий номер реєстрації
-        serial_registration_number: data.registration_number,
-        // (151) Дата реєстрації
-        date_of_registration: data.registration_date,
-        // (181) Очікувана дата закінчення строку дії реєстрації
-        expiry_date: data.data.ExpiryDate,
-        // (210) Порядковий номер заявки
-        serial_number_of_the_application: data.app_number,
-        // (220) Дата подання заявки
-        application_submission_date: data.app_date,
-        // (731) Ім'я та адреса заявника
-        name_and_address_of_the_applicant: `${data.data.HolderDetails.Holder[0].HolderAddressBook.FormattedNameAddress.Address.FreeFormatAddress.FreeFormatNameLine} ${data.data.HolderDetails.Holder[0].HolderAddressBook.FormattedNameAddress.Address.FreeFormatAddress.FreeFormatAddressLine}`,
-        // (732) Ім'я та адреса володільця реєстрації
-        name_and_address_of_registration_holder: `${data.data.HolderDetails.Holder[0].HolderAddressBook.FormattedNameAddress.Address.FreeFormatAddress.FreeFormatNameLine} ${data.data.HolderDetails.Holder[0].HolderAddressBook.FormattedNameAddress.Address.FreeFormatAddress.FreeFormatAddressLine}`,
-        // (740) Ім'я та адреса представника
-        name_and_address_of_representative:
-          data.data.RepresentativeDetails.Representative[0]
-            .RepresentativeAddressBook.FormattedNameAddress.Name.FreeFormatName
-            .FreeFormatNameDetails.FreeFormatNameDetails.FreeFormatNameLine,
-      })
-      // setCertificate(data)
-    }
-    fetchData()
+    setTimeout(() => {
+      const fetchData = async () => {
+        const data = await fetchCertificates()
+        setCertificate(data.data.stages)
+      }
+      fetchData()
+      setIndicator(false)
+    }, 1000)
   }, [])
 
   return (
-    <View
-      style={{
-        justifyContent: "center",
-        flex: 1,
-        alignItems: "center",
-      }}
-    >
-      <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.navigation}>
-            <Pressable
-              onPress={() => {
-                navigation.navigate("Data")
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+        }}
+      >
+        {indicator ? (
+          <ActivityIndicator size="large" color="tomato" />
+        ) : (
+          <View style={styles.container}>
+            <View>
+              <Text
+                style={{
+                  fontSize: 25,
+                  borderWidth: 1,
+                  borderColor: "tomato",
+                  padding: 10,
+                  borderRadius: 10,
+                  marginBottom: 10,
+                  fontWeight: "500",
+                  textAlign: "center",
+                }}
+              >
+                Стан діловодства {"\n"}
+                m202300894
+              </Text>
+            </View>
+            <View
+              style={{
+                width: "100%",
+                justifyContent: "center",
               }}
-              style={styles.textContainer}
             >
-              <Text style={styles.navText}>Бібліографічні дані</Text>
-            </Pressable>
-            <Pressable
-              onPress={() => {
-                navigation.navigate("Data")
-              }}
-              style={styles.textContainer}
-            >
-              <Text style={styles.navText}>Стан діловодства</Text>
-            </Pressable>
+              <Text style={{ marginLeft: 15, fontSize: 15 }}>Позначення</Text>
+              <View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginTop: 10,
+                  }}
+                >
+                  <Feather
+                    style={styles.statusNotDone}
+                    name={"x-square"}
+                    size={35}
+                    color={"white"}
+                  />
+                  <Text>Запланована стадія</Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginTop: 10,
+                  }}
+                >
+                  <Feather
+                    style={styles.statusInProcess}
+                    name={"minimize"}
+                    size={35}
+                    color={"white"}
+                  />
+                  <Text>Поточна стадія</Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginTop: 10,
+                  }}
+                >
+                  <Feather
+                    style={styles.statusDone}
+                    name={"check"}
+                    size={35}
+                    color={"white"}
+                  />
+                  <Text>Пройдена стадія</Text>
+                </View>
+              </View>
+            </View>
+            {certificate.map((item) => (
+              <View style={styles.progress} key={item.title}>
+                <View>
+                  <Feather
+                    style={
+                      item.status === "done"
+                        ? styles.statusDone
+                        : item.status === "current"
+                        ? styles.statusInProcess
+                        : styles.statusNotDone
+                    }
+                    name={
+                      item.status === "done"
+                        ? "check"
+                        : item.status === "current"
+                        ? "minimize"
+                        : "x-square"
+                    }
+                    size={35}
+                    color={"white"}
+                  />
+                </View>
+                <View style={styles.title}>
+                  <Text>{item.title}</Text>
+                </View>
+              </View>
+            ))}
           </View>
-        </ScrollView>
+        )}
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
@@ -93,30 +163,73 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     width: "95%",
-    borderWidth: 1,
     marginTop: 20,
   },
-  navigation: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  progress: {
     width: "100%",
-  },
-  textContainer: {
-    alignItems: "center",
-    justifyContent: "center",
+    height: 85,
     borderWidth: 1,
-    borderColor: "tomato",
     borderRadius: 10,
+    borderColor: "tomato",
+    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
-    width: "50%",
+    marginTop: 15,
+    marginBottom: 15,
   },
-  navText: {
-    fontSize: 15,
-    fontWeight: "bold",
+  statusDone: {
+    backgroundColor: "#5cb85c",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+    padding: 5,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+
+  statusInProcess: {
+    backgroundColor: "#037fe2",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+    padding: 5,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  statusNotDone: {
+    backgroundColor: "#fff",
     color: "tomato",
-    paddingTop: 15,
-    paddingBottom: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+    padding: 5,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  title: {
+    justifyContent: "center",
+    width: "85%",
+    height: "100%",
+    fontSize: 13,
+    fontWeight: "400",
+    // borderWidth: 1,
+    padding: 10,
   },
 })
 
 export default Certificates
+
+// {
+//   justifyContent: "center",
+//   alignItems: "center",
+//   backgroundColor:
+//     item.status === "done"
+//       ? "green"
+//       : item.status === "current"
+//       ? "blue"
+//       : "red",
+//   borderRadius: 100,
+//   padding: 5,
+//   marginLeft: 5,
+//   marginRight: 5,
+// }
