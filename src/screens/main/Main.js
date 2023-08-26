@@ -1,5 +1,6 @@
 import React from "react"
 import {
+  SafeAreaView,
   View,
   Text,
   StyleSheet,
@@ -19,8 +20,10 @@ import Contacts from "./Components/Contacts"
 
 function Main() {
   return (
-    <View style={{ justifyContent: "center", flex: 1, alignItems: "center" }}>
-      <View style={styles.container}>
+    <SafeAreaView
+      style={{ justifyContent: "center", flex: 1, alignItems: "center" }}
+    >
+      <View style={{ width: "90%" }}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* starting info */}
           <StartingInfo />
@@ -38,7 +41,7 @@ function Main() {
           <Contacts />
         </ScrollView>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 

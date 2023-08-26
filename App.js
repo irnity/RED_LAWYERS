@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native"
+import { SafeAreaView, StyleSheet, Text, View } from "react-native"
 import { Feather } from "@expo/vector-icons"
 
 // navigation
@@ -27,7 +27,7 @@ const CertificatesStack = () => (
 export default function App() {
   return (
     <NavigationContainer>
-      <View style={{ justifyContent: "center", flex: 1 }}>
+      <SafeAreaView style={{ justifyContent: "center", flex: 1 }}>
         <Title />
         <Tab.Navigator
           initialRouteName="Налаштування"
@@ -103,7 +103,7 @@ export default function App() {
             }}
           />
         </Tab.Navigator>
-      </View>
+      </SafeAreaView>
     </NavigationContainer>
   )
 }

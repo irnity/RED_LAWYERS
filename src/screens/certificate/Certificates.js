@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    width: "95%",
+    width: "90%",
     marginTop: 20,
   },
   progress: {
