@@ -1,5 +1,7 @@
 "stages"
 
+rnfes
+
 console.log({
         // (111) Порядковий номер реєстрації
         serial_registration_number: data.registration_number,

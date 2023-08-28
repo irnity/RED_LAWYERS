@@ -1,10 +1,10 @@
 import React from "react"
 import { View, Text, StyleSheet } from "react-native"
 
-function Title() {
+function Title({ counter }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>RED LAWYERS</Text>
+      <Text style={styles.text}>RED LAWYERS {counter}</Text>
     </View>
   )
 }
