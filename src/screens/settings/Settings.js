@@ -3,8 +3,9 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth"
-import { auth } from "../../services/firebase"
+import { auth, firestoreDatabase } from "../../services/firebase"
 import React, { useEffect, useState } from "react"
 import {
   View,
@@ -18,87 +19,129 @@ import {
 } from "react-native"
 
 import { ADMIN_KEY } from "@env"
+import { useDispatch, useSelector } from "react-redux"
+import { authActions } from "../../redux/authSlice"
+import Menu from "./Components/Menu"
+import { doc, getDoc } from "firebase/firestore"
 
-function Settings() {
+function Settings({ navigation }) {
+  const dispatch = useDispatch()
   const [Email, setEmail] = useState("")
   const [Password, setPassword] = useState("")
-  // const auth = FIREBASE_AUTH
 
-  const handleSignUp = () => {
-    createUserWithEmailAndPassword(auth, Email, Password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user
-        console.log(user)
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code
-        const errorMessage = error.message
-        alert(errorCode, errorMessage)
-        console.log(errorCode, errorMessage)
-        // ..
-      })
-  }
+  const { isAdmin, isLogedIn, uid } = useSelector((state) => state.auth)
+
+  const [error, setError] = useState("")
 
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, Email, Password)
       .then((userCredential) => {
-        // Signed in
         const user = userCredential.user
-        console.log(user.uid)
+        const fetchUser = async () => {
+          const data = {
+            uid: user.uid,
+            first_name: "",
+            last_name: "",
+            certificate: "",
+          }
 
-        // ...
+          const docRef = doc(firestoreDatabase, "users", user.uid)
+          const docSnap = await getDoc(docRef)
+          const information = docSnap.data()
+          data.first_name = information.first_name
+          data.last_name = information.last_name
+          data.certificate = information.certificate
+          dispatch(authActions.isLogedInCheck(data))
+        }
+        fetchUser()
       })
       .catch((error) => {
+        setError("Невірний логін або пароль")
         const errorCode = error.code
         const errorMessage = error.message
-        alert(errorCode, errorMessage)
+        console.log("code:", errorCode, "message:", errorMessage)
+        // alert(errorCode, errorMessage)
       })
   }
 
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("sign out")
+        dispatch(authActions.signOut())
+      })
+      .catch((error) => {
+        // An error happened.
+        console.log(error)
+      })
+  }
+
+  const handleGoToSignIn = () => {
+    navigation.navigate("Профіль", { screen: "SignIn" })
+  }
+
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        if (process.env.ADMIN_KEY === user.uid) {
-          console.log("admin")
-        } else {
-          console.log("user")
-        }
-        console.log(user.uid)
-      } else {
-        console.log("no user")
-      }
-    })
-  }, [])
+    const timeout = setTimeout(() => {
+      setError("")
+    }, 2000)
+    return () => clearTimeout(timeout)
+  }, [error])
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="height">
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          value={Email}
-          onChangeText={(text) => setEmail(text)}
-          style={styles.input}
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+      {isLogedIn === false ? (
+        <>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Email"
+              keyboardType="email-address"
+              // autoCapitalize="none"
+              value={Email}
+              onChangeText={(text) => setEmail(text)}
+              style={error === "" ? styles.input : styles.inputError}
+            />
+            <TextInput
+              placeholder="Password"
+              value={Password}
+              onChangeText={(text) => setPassword(text)}
+              style={error === "" ? styles.input : styles.inputError}
+            />
+            {error && (
+              <Text
+                style={{ color: "red", textAlign: "center", marginBottom: -26 }}
+              >
+                {error}
+              </Text>
+            )}
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+              <Text style={styles.buttonText}>Увійти</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate("Профіль", { screen: "RestorePassword" })
+              }}
+            >
+              <Text style={styles.buttonText}>Не пам'ятаю пароль</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonOutline]}
+              onPress={handleGoToSignIn}
+            >
+              <Text style={styles.buttonOutlineText}>Зареєструватися</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      ) : null}
+
+      {isLogedIn && (
+        <Menu
+          handleSignOut={handleSignOut}
+          handleGoToSignIn={handleGoToSignIn}
         />
-        <TextInput
-          placeholder="Password"
-          value={Password}
-          onChangeText={(text) => setPassword(text)}
-          style={styles.input}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-          <Text style={styles.buttonText}>Увійти</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.buttonOutline]}
-          onPress={handleSignUp}
-        >
-          <Text style={styles.buttonOutlineText}>Зареєструватися</Text>
-        </TouchableOpacity>
-      </View>
+      )}
     </KeyboardAvoidingView>
   )
 }
@@ -119,23 +162,33 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 10,
   },
+  inputError: {
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderColor: "tomato",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 5,
+  },
   buttonContainer: {
-    width: "60%",
+    width: "80%",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 40,
   },
   button: {
-    backgroundColor: "#0782F9",
+    backgroundColor: "tomato",
     width: "100%",
     padding: 15,
     borderRadius: 10,
+    marginBottom: 10,
     alignItems: "center",
   },
   buttonOutline: {
     color: "white",
     marginTop: 5,
-    borderColor: "#0782F9",
+    borderColor: "tomato",
     backgroundColor: "white",
     borderWidth: 2,
   },
@@ -145,7 +198,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   buttonOutlineText: {
-    color: "#0782F9",
+    color: "tomato",
     fontWeight: "700",
     fontSize: 16,
   },

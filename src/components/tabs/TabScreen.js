@@ -1,19 +1,19 @@
 import React from "react"
-import { View, Text, StyleSheet } from "react-native"
-
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-
+import { StyleSheet, Text, View } from "react-native"
 import { Feather } from "@expo/vector-icons"
-import Main from "../../screens/main/Main"
-import Certificates from "../../screens/certificate/Certificates"
-import Settings from "../../screens/settings/Settings"
-import Chat from "../../screens/chat/Chat"
 
-const Tab = createBottomTabNavigator()
+// Navigations Stacks
+import ChatStack from "./Stacks/ChatStack"
+import SettingsStack from "./Stacks/SettingsStack"
+import CertificatesStack from "./Stacks/CertificatesStack"
+import LandingStack from "./Stacks/LandingStack"
+import { useSelector } from "react-redux"
 
-function Tabs() {
+const TabScreen = ({ Tab, name, icon }) => {
+  const { isAdmin, isLogedIn, uid } = useSelector((state) => state.auth)
   return (
     <Tab.Navigator
+      initialRouteName="Головна"
       screenOptions={{
         tabBarActiveTintColor: "tomato",
         tabBarInactiveTintColor: "gray",
@@ -25,7 +25,6 @@ function Tabs() {
         headerStyle: {
           backgroundColor: "white",
         },
-        // top text
         headerTitleStyle: {
           fontWeight: "bold",
           fontSize: 25,
@@ -34,9 +33,12 @@ function Tabs() {
         headerShown: false,
       }}
     >
+      {/*  */}
+      {/* Головна */}
+      {/*  */}
       <Tab.Screen
         name={"Головна"}
-        component={Main}
+        component={LandingStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather
@@ -47,9 +49,12 @@ function Tabs() {
           ),
         }}
       />
+      {/*  */}
+      {/* Сертифікати */}
+      {/*  */}
       <Tab.Screen
-        name={"Сертифікати"}
-        component={Certificates}
+        name={"Сертифікат"}
+        component={CertificatesStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather
@@ -60,9 +65,12 @@ function Tabs() {
           ),
         }}
       />
+      {/*  */}
+      {/* Чат */}
+      {/*  */}
       <Tab.Screen
         name={"Чат"}
-        component={Chat}
+        component={ChatStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather
@@ -73,9 +81,12 @@ function Tabs() {
           ),
         }}
       />
+      {/*  */}
+      {/* Налаштування */}
+      {/*  */}
       <Tab.Screen
-        name={"Налаштування"}
-        component={Settings}
+        name={"Профіль"}
+        component={SettingsStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather
@@ -90,4 +101,6 @@ function Tabs() {
   )
 }
 
-export default Tabs
+export default TabScreen
+
+const styles = StyleSheet.create({})

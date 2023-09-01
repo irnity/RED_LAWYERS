@@ -18,26 +18,38 @@ import Cards from "./Components/Cards/Cards"
 import WorkWith from "./Components/WorkWith"
 import Contacts from "./Components/Contacts"
 
-function Main() {
+function Landing() {
   return (
-    <SafeAreaView
-      style={{ justifyContent: "center", flex: 1, alignItems: "center" }}
-    >
+    <SafeAreaView style={styles.container}>
       <View style={{ width: "90%" }}>
         <ScrollView showsVerticalScrollIndicator={false}>
+          {/*  */}
           {/* starting info */}
+          {/*  */}
           <StartingInfo />
+          {/*  */}
           {/* information */}
+          {/*  */}
           <Information />
+          {/*  */}
           {/* why you need us */}
+          {/*  */}
           <WhyWe />
+          {/*  */}
           {/* about us */}
+          {/*  */}
           <AboutUs />
+          {/*  */}
           {/* cards */}
+          {/*  */}
           <Cards />
+          {/*  */}
           {/* WorkWith */}
+          {/*  */}
           <WorkWith />
+          {/*  */}
           {/* Numbers */}
+          {/*  */}
           <Contacts />
         </ScrollView>
       </View>
@@ -46,13 +58,7 @@ function Main() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    alignContent: "center",
-    width: "95%",
-    height: "100%",
-  },
+  container: { justifyContent: "center", flex: 1, alignItems: "center" },
 })
 
-export default Main
+export default Landing
