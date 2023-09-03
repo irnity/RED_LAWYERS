@@ -1,4 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import {
+  KeyboardAvoidingView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native"
 import React from "react"
 import { useSelector } from "react-redux"
 
@@ -7,38 +13,47 @@ const Menu = ({ handleSignOut, handleGoToSignIn }) => {
     (state) => state.auth
   )
   return (
-    <View
+    <KeyboardAvoidingView
+      behavior="padding"
       style={{
         flex: 1,
-        width: "80%",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      <View style={styles.Container}>
-        <View style={styles.nameBox}>
-          <Text style={styles.text}>{`${first_name} ${last_name}`}</Text>
-        </View>
-        <View style={styles.certificateBox}>
-          <Text style={styles.text}>Номер вашого документу</Text>
-          <Text style={styles.text}>{certificateNumber}</Text>
-        </View>
-        {/* <View>
+      <View
+        style={{
+          flex: 1,
+          width: "80%",
+        }}
+      >
+        <View style={styles.Container}>
+          <View style={styles.nameBox}>
+            <Text style={styles.text}>{`${first_name} ${last_name}`}</Text>
+          </View>
+          <View style={styles.certificateBox}>
+            <Text style={styles.text}>Номер вашого документу</Text>
+            <Text style={styles.text}>{certificateNumber}</Text>
+          </View>
+          {/* <View>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.text}>Змінити Імя та Прізвище</Text>
           </TouchableOpacity>
         </View> */}
-        <View>
-          <TouchableOpacity style={styles.button} onPress={handleGoToSignIn}>
-            <Text style={styles.text}>Змінити дані</Text>
+          <View>
+            <TouchableOpacity style={styles.button} onPress={handleGoToSignIn}>
+              <Text style={styles.text}>Змінити дані</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            style={[styles.button, styles.buttonOutline]}
+            onPress={handleSignOut}
+          >
+            <Text style={styles.buttonOutlineText}>Вийти</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={[styles.button, styles.buttonOutline]}
-          onPress={handleSignOut}
-        >
-          <Text style={styles.buttonOutlineText}>Вийти</Text>
-        </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 

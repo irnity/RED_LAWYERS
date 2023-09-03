@@ -25,9 +25,7 @@ import {
   updateDoc,
 } from "firebase/firestore"
 import ChatElement from "./Components/ChatElement"
-import PleaseLogin from "../../components/please/PleaseLogin"
 import { useDispatch, useSelector } from "react-redux"
-import AdminChat from "./Components/AdminChat"
 import { authActions } from "../../redux/authSlice"
 import useChat from "./hooks/useChat"
 import CustomActivityIndicator from "../../components/activityIndicator/CustomActivityIndicator"

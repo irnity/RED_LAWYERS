@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native"
 import { Feather } from "@expo/vector-icons"
 
 // Navigations Stacks
-import ChatStack from "./Stacks/ChatStack"
+import { UserChatStack, AdminChatStack } from "./Stacks/ChatStack"
 import SettingsStack from "./Stacks/SettingsStack"
 import CertificatesStack from "./Stacks/CertificatesStack"
 import LandingStack from "./Stacks/LandingStack"
@@ -70,7 +70,7 @@ const TabScreen = ({ Tab, name, icon }) => {
       {/*  */}
       <Tab.Screen
         name={"Чат"}
-        component={ChatStack}
+        component={isAdmin ? AdminChatStack : UserChatStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather

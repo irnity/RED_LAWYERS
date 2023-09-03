@@ -15,7 +15,6 @@ import { Feather } from "@expo/vector-icons"
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useSelector } from "react-redux"
-import PleaseLogin from "../../components/please/PleaseLogin"
 import CustomActivityIndicator from "../../components/activityIndicator/CustomActivityIndicator"
 import NotLogedIn from "../../components/notLogedIn/NotLogedIn"
 import NeedCertificate from "./Components/NeedCertificate"

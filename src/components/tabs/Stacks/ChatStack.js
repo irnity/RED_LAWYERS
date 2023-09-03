@@ -4,11 +4,16 @@ import AdminChat from "../../../screens/chat/Components/AdminChat"
 
 const Stack = createNativeStackNavigator()
 
-const ChatStack = () => (
+export const UserChatStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="UserChat" component={Chat} />
-    <Stack.Screen name="AdminChat" component={AdminChat} />
+    {/* <Stack.Screen name="AdminChat" component={AdminChat} /> */}
   </Stack.Navigator>
 )
 
-export default ChatStack
+export const AdminChatStack = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="AdminChat" component={AdminChat} />
+    <Stack.Screen name="UserChat" component={Chat} />
+  </Stack.Navigator>
+)

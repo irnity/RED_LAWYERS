@@ -16,6 +16,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
+  Modal,
 } from "react-native"
 
 import { ADMIN_KEY } from "@env"
@@ -23,9 +24,13 @@ import { useDispatch, useSelector } from "react-redux"
 import { authActions } from "../../redux/authSlice"
 import Menu from "./Components/Menu"
 import { doc, getDoc } from "firebase/firestore"
+import useSettings from "./hooks/useSettings"
+import NotLogedIn from "../../components/notLogedIn/NotLogedIn"
 
 function Settings({ navigation }) {
   const dispatch = useDispatch()
+
+  const { isLoading } = useSettings({ navigation })
   const [Email, setEmail] = useState("")
   const [Password, setPassword] = useState("")
 
@@ -33,35 +38,37 @@ function Settings({ navigation }) {
 
   const [error, setError] = useState("")
 
-  const handleSignIn = () => {
-    signInWithEmailAndPassword(auth, Email, Password)
-      .then((userCredential) => {
-        const user = userCredential.user
-        const fetchUser = async () => {
-          const data = {
-            uid: user.uid,
-            first_name: "",
-            last_name: "",
-            certificate: "",
-          }
+  const handleSignIn = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(auth, Email, Password)
+      const userUID = await user.user.uid
+      // console.log(user)
+      const data = {
+        uid: userUID,
+        first_name: "",
+        last_name: "",
+        certificate: "",
+      }
+      const docRef = doc(firestoreDatabase, "users", userUID)
+      const docSnap = await getDoc(docRef)
+      const information = docSnap.data()
+      data.first_name = information.first_name
+      data.last_name = information.last_name
+      data.certificate = information.certificate
+      dispatch(authActions.isLogedInCheck(data))
 
-          const docRef = doc(firestoreDatabase, "users", user.uid)
-          const docSnap = await getDoc(docRef)
-          const information = docSnap.data()
-          data.first_name = information.first_name
-          data.last_name = information.last_name
-          data.certificate = information.certificate
-          dispatch(authActions.isLogedInCheck(data))
-        }
-        fetchUser()
-      })
-      .catch((error) => {
-        setError("Невірний логін або пароль")
-        const errorCode = error.code
-        const errorMessage = error.message
-        console.log("code:", errorCode, "message:", errorMessage)
-        // alert(errorCode, errorMessage)
-      })
+      if (await isAdmin) {
+        await navigation.navigate("Чат", { screen: "AdminChat" })
+      } else {
+        await navigation.navigate("Чат", { screen: "UserChat" })
+      }
+    } catch (error) {
+      setError("Невірний логін або пароль")
+      const errorCode = error.code
+      const errorMessage = error.message
+      console.log("code:", errorCode, "message:", errorMessage)
+      // alert(errorCode, errorMessage)
+    }
   }
 
   const handleSignOut = () => {
@@ -87,61 +94,57 @@ function Settings({ navigation }) {
     return () => clearTimeout(timeout)
   }, [error])
 
+  const [modalVisible, setModalVisible] = useState(true)
+  if (isLogedIn) {
+    return (
+      <Menu handleSignOut={handleSignOut} handleGoToSignIn={handleGoToSignIn} />
+    )
+  }
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
-      {isLogedIn === false ? (
-        <>
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="Email"
-              keyboardType="email-address"
-              // autoCapitalize="none"
-              value={Email}
-              onChangeText={(text) => setEmail(text)}
-              style={error === "" ? styles.input : styles.inputError}
-            />
-            <TextInput
-              placeholder="Password"
-              value={Password}
-              onChangeText={(text) => setPassword(text)}
-              style={error === "" ? styles.input : styles.inputError}
-            />
-            {error && (
-              <Text
-                style={{ color: "red", textAlign: "center", marginBottom: -26 }}
-              >
-                {error}
-              </Text>
-            )}
-          </View>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-              <Text style={styles.buttonText}>Увійти</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.navigate("Профіль", { screen: "RestorePassword" })
-              }}
-            >
-              <Text style={styles.buttonText}>Не пам'ятаю пароль</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.buttonOutline]}
-              onPress={handleGoToSignIn}
-            >
-              <Text style={styles.buttonOutlineText}>Зареєструватися</Text>
-            </TouchableOpacity>
-          </View>
-        </>
-      ) : null}
-
-      {isLogedIn && (
-        <Menu
-          handleSignOut={handleSignOut}
-          handleGoToSignIn={handleGoToSignIn}
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="Email"
+          keyboardType="email-address"
+          // autoCapitalize="none"
+          value={Email}
+          onChangeText={(text) => setEmail(text)}
+          style={error === "" ? styles.input : styles.inputError}
         />
-      )}
+        <TextInput
+          placeholder="Password"
+          value={Password}
+          onChangeText={(text) => setPassword(text)}
+          style={error === "" ? styles.input : styles.inputError}
+        />
+        {error && (
+          <Text
+            style={{ color: "red", textAlign: "center", marginBottom: -26 }}
+          >
+            {error}
+          </Text>
+        )}
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+          <Text style={styles.buttonText}>Увійти</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("Профіль", { screen: "RestorePassword" })
+          }}
+        >
+          <Text style={styles.buttonText}>Не пам'ятаю пароль</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, styles.buttonOutline]}
+          onPress={handleGoToSignIn}
+        >
+          <Text style={styles.buttonOutlineText}>Зареєструватися</Text>
+        </TouchableOpacity>
+      </View>
     </KeyboardAvoidingView>
   )
 }

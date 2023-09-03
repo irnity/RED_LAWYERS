@@ -42,9 +42,7 @@ const authSlice = createSlice({
           console.log(state)
         }
       } else {
-        state.isLogedIn = false
-        state.uid = ""
-        console.log(state)
+        c
       }
     },
     chageUID: (state, actions) => {
@@ -56,9 +54,13 @@ const authSlice = createSlice({
       console.log(state)
     },
     signOut: (state) => {
-      state.isAdmin = false
       state.isLogedIn = false
+      state.isAdmin = false
+      state.first_name = ""
+      state.last_name = ""
+      state.certificateNumber = ""
       state.uid = ""
+      console.log(state)
     },
   },
 })

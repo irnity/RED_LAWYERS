@@ -27,18 +27,17 @@ const useChat = ({ navigation }) => {
   // message that we send to firebase
   const [message, setMessage] = useState("")
 
-  // check if user is admin and loged in and uid is empty
-  // if true then navigate to admin chat
-  // if user is loged in and uid is not empty then fetch messages
   useEffect(() => {
-    if (isAdmin && isLogedIn && uid === "") {
-      navigation.navigate("AdminChat")
-    } else if (isLogedIn && uid !== "") {
-      fetchMessages()
+    if (!isLogedIn || !uid) {
+      setIsLoading(false)
+      return
     }
-    setTimeout(() => {
+    fetchMessages()
+    const timer = setTimeout(() => {
       setIsLoading(false)
     }, 1000)
+
+    return () => clearTimeout(timer)
   }, [isAdmin, isLogedIn, uid])
 
   // navigate to settings screen
@@ -57,8 +56,6 @@ const useChat = ({ navigation }) => {
   }
 
   // fetch messages from firebase
-  // and set data
-  // and sort data by createdAt
   const fetchMessages = async () => {
     const q = query(
       collection(firestoreDatabase, "messages", uid, "messages"),
