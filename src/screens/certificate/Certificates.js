@@ -1,21 +1,9 @@
+// react
 import React, { useEffect, useState } from "react"
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Button,
-  Pressable,
-  FlatList,
-  ActivityIndicator,
-  TouchableOpacity,
-} from "react-native"
-
-import { Feather } from "@expo/vector-icons"
-
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { StyleSheet } from "react-native"
+// redux
 import { useSelector } from "react-redux"
-import CustomActivityIndicator from "../../components/activityIndicator/CustomActivityIndicator"
+// components
 import NotLogedIn from "../../components/notLogedIn/NotLogedIn"
 import NeedCertificate from "./Components/NeedCertificate"
 import Document from "./Components/Document"
@@ -24,7 +12,7 @@ function Certificates({ navigation }) {
   const { isLogedIn, certificateNumber } = useSelector((state) => state.auth)
 
   const goToSettings = () => {
-    navigation.navigate("Профіль", { screen: "LoggIn" })
+    navigation.navigate("Профіль", { screen: "LogIn" })
   }
 
   useEffect(() => {}, [])

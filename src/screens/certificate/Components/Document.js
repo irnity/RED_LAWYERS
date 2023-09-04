@@ -1,3 +1,4 @@
+// react
 import {
   Alert,
   ScrollView,
@@ -8,11 +9,13 @@ import {
 } from "react-native"
 import React, { useState } from "react"
 import useCerificates from "../hooks/useCerificates"
-import CustomActivityIndicator from "../../../components/activityIndicator/CustomActivityIndicator"
 import { Feather } from "@expo/vector-icons"
-import { useSelector } from "react-redux"
+// componets
+import CustomActivityIndicator from "../../../components/activityIndicator/CustomActivityIndicator"
 import StageList from "./StageList"
 import Descriptions from "./Descriptions"
+// redux
+import { useSelector } from "react-redux"
 
 const Document = () => {
   const { loading } = useCerificates()
@@ -66,9 +69,7 @@ const Document = () => {
             {/* description toggle button*/}
             {/*  */}
             <TouchableOpacity onPress={handleToggel} style={styles.toggelBox}>
-              <Text style={{ fontWeight: "500", fontSize: 25 }}>
-                Позначення
-              </Text>
+              <Text style={{ fontWeight: "500", fontSize: 25 }}>Стадії</Text>
               <Feather
                 name={Icon}
                 size={35}

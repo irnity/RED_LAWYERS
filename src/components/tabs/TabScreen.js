@@ -1,15 +1,19 @@
+// react
 import React from "react"
 import { StyleSheet, Text, View } from "react-native"
 import { Feather } from "@expo/vector-icons"
-
 // Navigations Stacks
 import { UserChatStack, AdminChatStack } from "./Stacks/ChatStack"
-import SettingsStack from "./Stacks/SettingsStack"
+import SettingsStack from "../../screens/settings/stack/SettingsStack"
 import CertificatesStack from "./Stacks/CertificatesStack"
 import LandingStack from "./Stacks/LandingStack"
+// redux
 import { useSelector } from "react-redux"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
-const TabScreen = ({ Tab, name, icon }) => {
+const Tab = createBottomTabNavigator()
+
+const TabScreen = () => {
   const { isAdmin, isLogedIn, uid } = useSelector((state) => state.auth)
   return (
     <Tab.Navigator

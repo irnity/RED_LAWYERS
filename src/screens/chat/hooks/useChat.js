@@ -42,7 +42,7 @@ const useChat = ({ navigation }) => {
 
   // navigate to settings screen
   const goToSettings = () => {
-    navigation.navigate("Профіль", { screen: "LoggIn" })
+    navigation.navigate("Профіль", { screen: "LogIn" })
   }
 
   // navigate to admin chat screen

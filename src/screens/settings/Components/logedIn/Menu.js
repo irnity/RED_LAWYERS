@@ -7,11 +7,17 @@ import {
 } from "react-native"
 import React from "react"
 import { useSelector } from "react-redux"
+import useSignIn from "../../hooks/useSignIn"
 
-const Menu = ({ handleSignOut, handleGoToSignIn }) => {
+const Menu = ({ navigation }) => {
   const { first_name, last_name, certificateNumber } = useSelector(
     (state) => state.auth
   )
+
+  const { handleSignOut, handleGoToChangeName } = useSignIn({
+    navigation,
+  })
+
   return (
     <KeyboardAvoidingView
       behavior="padding"
@@ -35,13 +41,16 @@ const Menu = ({ handleSignOut, handleGoToSignIn }) => {
             <Text style={styles.text}>Номер вашого документу</Text>
             <Text style={styles.text}>{certificateNumber}</Text>
           </View>
-          {/* <View>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.text}>Змінити Імя та Прізвище</Text>
-          </TouchableOpacity>
-        </View> */}
           <View>
-            <TouchableOpacity style={styles.button} onPress={handleGoToSignIn}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleGoToChangeName}
+            >
+              <Text style={styles.text}>Змінити Ім'я та Прізвище</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity style={styles.button} onPress={() => {}}>
               <Text style={styles.text}>Змінити дані</Text>
             </TouchableOpacity>
           </View>

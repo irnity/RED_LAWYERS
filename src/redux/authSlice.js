@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 import { auth } from "../services/firebase"
-import { signOut } from "firebase/auth"
 
 const initialAuthState = {
   isAdmin: false,

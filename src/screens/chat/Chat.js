@@ -1,36 +1,14 @@
-import { onAuthStateChanged } from "firebase/auth"
-import React, { useEffect, useRef, useState } from "react"
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  SafeAreaView,
-  ActivityIndicator,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-  Button,
-} from "react-native"
-import { auth, firestoreDatabase } from "../../services/firebase"
-import { Feather } from "@expo/vector-icons"
-import {
-  Timestamp,
-  addDoc,
-  collection,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-  updateDoc,
-} from "firebase/firestore"
-import ChatElement from "./Components/ChatElement"
-import { useDispatch, useSelector } from "react-redux"
-import { authActions } from "../../redux/authSlice"
+// react
+import React from "react"
+import { StyleSheet, SafeAreaView } from "react-native"
 import useChat from "./hooks/useChat"
+// components
+import ChatElement from "./Components/ChatElement"
 import CustomActivityIndicator from "../../components/activityIndicator/CustomActivityIndicator"
 import AdminButton from "./Components/AdminButton"
 import NotLogedIn from "../../components/notLogedIn/NotLogedIn"
+// redux
+import { useDispatch, useSelector } from "react-redux"
 
 function Chat({ navigation }) {
   const dispatch = useDispatch()

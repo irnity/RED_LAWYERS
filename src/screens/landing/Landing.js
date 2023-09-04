@@ -1,15 +1,7 @@
+// react
 import React from "react"
-import {
-  SafeAreaView,
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  Touchable,
-  TouchableOpacity,
-  Button,
-} from "react-native"
+import { SafeAreaView, View, StyleSheet, ScrollView } from "react-native"
+// components
 import StartingInfo from "./Components/StartingInfo"
 import Information from "./Components/Information"
 import WhyWe from "./Components/WhyWe"

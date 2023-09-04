@@ -7,7 +7,8 @@ import {
 } from "react-native"
 import React, { useState } from "react"
 import { getAuth, sendPasswordResetEmail } from "firebase/auth"
-import { auth } from "../../../services/firebase"
+import { auth } from "../../../../services/firebase"
+
 const RestorePassword = () => {
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState(
