@@ -5,18 +5,19 @@ import {
   TouchableOpacity,
   View,
 } from "react-native"
-import React from "react"
+import React, { useEffect } from "react"
 import { useSelector } from "react-redux"
-import useSignIn from "../../hooks/useSignIn"
+import useLogedIn from "../../hooks/useLogedIn"
+import CustomButton from "../../../../components/buttons/CustomButton"
 
 const Menu = ({ navigation }) => {
-  const { first_name, last_name, certificateNumber } = useSelector(
-    (state) => state.auth
-  )
+  const { isAdmin, isLogedIn, first_name, last_name, certificateNumber } =
+    useSelector((state) => state.auth)
 
-  const { handleSignOut, handleGoToChangeName } = useSignIn({
-    navigation,
-  })
+  const { handleSignOut, handleGoToChangeName, handleGoToChangeTM } =
+    useLogedIn({
+      navigation,
+    })
 
   return (
     <KeyboardAvoidingView
@@ -35,31 +36,27 @@ const Menu = ({ navigation }) => {
       >
         <View style={styles.Container}>
           <View style={styles.nameBox}>
+            <Text style={styles.text}>Ваш профіль</Text>
+          </View>
+          <View style={styles.nameBox}>
             <Text style={styles.text}>{`${first_name} ${last_name}`}</Text>
           </View>
-          <View style={styles.certificateBox}>
-            <Text style={styles.text}>Номер вашого документу</Text>
-            <Text style={styles.text}>{certificateNumber}</Text>
-          </View>
-          <View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={handleGoToChangeName}
-            >
-              <Text style={styles.text}>Змінити Ім'я та Прізвище</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity style={styles.button} onPress={() => {}}>
-              <Text style={styles.text}>Змінити дані</Text>
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity
-            style={[styles.button, styles.buttonOutline]}
-            onPress={handleSignOut}
-          >
-            <Text style={styles.buttonOutlineText}>Вийти</Text>
-          </TouchableOpacity>
+
+          <CustomButton
+            color={"red"}
+            text={"Змінити Ім'я та Прізвище"}
+            handler={handleGoToChangeName}
+          />
+          <CustomButton
+            color={"red"}
+            text={"Змінити номери ваших ТМ"}
+            handler={handleGoToChangeTM}
+          />
+          <CustomButton
+            color={"white"}
+            text={"Вийти"}
+            handler={handleSignOut}
+          />
         </View>
       </View>
     </KeyboardAvoidingView>
@@ -73,7 +70,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     // alignItems: "center",
-    marginTop: 40,
+    // marginTop: 40,
   },
   nameBox: {
     width: "100%",
@@ -83,6 +80,8 @@ const styles = StyleSheet.create({
     borderColor: "tomato",
     borderRadius: 10,
     padding: 10,
+    marginTop: 10,
+    marginBottom: 20,
   },
   certificateBox: {
     width: "100%",
@@ -93,9 +92,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginTop: 10,
+    marginBottom: 10,
   },
   text: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
   },

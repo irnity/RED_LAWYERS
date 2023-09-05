@@ -8,40 +8,56 @@ import {
 import React, { useState } from "react"
 import { getAuth, sendPasswordResetEmail } from "firebase/auth"
 import { auth } from "../../../../services/firebase"
+import CustomInput from "../../../../components/input/CustomInput"
+import CustomButton from "../../../../components/buttons/CustomButton"
+import useNotLogeIn from "../../hooks/useNotLogeIn"
 
-const RestorePassword = () => {
-  const [email, setEmail] = useState("")
-  const [message, setMessage] = useState(
-    "перевірте пошту, ми відправили вам листа на відновлення паролю"
-  )
+const RestorePassword = ({ navigation }) => {
+  const { Email, setEmail, handleRestorePassword } = useNotLogeIn({
+    navigation,
+  })
+  const [message, setMessage] = useState("")
 
-  const restore = () => {
-    sendPasswordResetEmail(auth, email)
-      .then(() => {
-        console.log("email sent")
-        // Password reset email sent!
-        // ..
-      })
-      .catch((error) => {
-        const errorCode = error.code
-        const errorMessage = error.message
-        // ..
-      })
-  }
   return (
-    <View>
-      <TextInput
-        style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
-        onChangeText={(text) => setEmail(text)}
-        value={email}
-      />
-      <TouchableOpacity onPress={restore}>
-        <Text>RestorePassword</Text>
-      </TouchableOpacity>
+    <View style={styles.container}>
+      <Text style={styles.header}>Відновлення паролю</Text>
+      <View style={{ gap: 20 }}>
+        <CustomInput
+          value={Email}
+          setValue={setEmail}
+          placeHolder={"Введіть вашу пошту"}
+          keyboardType={"email-address"}
+        />
+        <CustomButton
+          color={"red"}
+          handler={handleRestorePassword}
+          text={"Відновити"}
+        />
+        {message && <Text style={styles.text}>{message}</Text>}
+      </View>
     </View>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: "100%",
+    justifyContent: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: "700",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  text: {
+    color: "tomato",
+    textAlign: "center",
+    marginTop: -20,
+  },
+})
 
 export default RestorePassword

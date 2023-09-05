@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { authActions } from "../../../redux/authSlice"
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth"
 import { Alert } from "react-native"
-import { auth } from "../../../services/firebase"
+import { auth, firestoreDatabase } from "../../../services/firebase"
 
-const useSignIn = ({ navigation }) => {
+const useLogedIn = ({ navigation }) => {
   const dispatch = useDispatch()
 
   const { isLogedIn, uid, first_name, last_name, certificateNumber } =
@@ -20,72 +20,72 @@ const useSignIn = ({ navigation }) => {
   const [password, setPassword] = useState("")
   const [passwordConfirm, setPasswordConfirm] = useState("")
 
+  const [error, setError] = useState("")
+
+  const [docsTM, setDocsTM] = useState([])
+
   useEffect(() => {
     if (isLogedIn) {
       setFirstNameInput(first_name)
       setLastNameInput(last_name)
       setCertificateInput(certificateNumber)
+      setDocsTM(certificateNumber)
     }
   }, [])
 
-  const handleCreateUser = async () => {
-    if (
-      password === passwordConfirm &&
-      password.length >= 8 &&
-      email !== "" &&
-      firstNameInput !== "" &&
-      lastNameInput !== ""
-    ) {
-      try {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        )
-        await setDoc(doc(firestoreDatabase, "users", userCredential.user.uid), {
-          email: email,
-          first_name: firstNameInput,
-          last_name: lastNameInput,
-          certificate: "",
-        })
-        await setDoc(
-          doc(firestoreDatabase, "messages", userCredential.user.uid),
-          {
-            messages: [],
-          }
-        )
-        navigation.navigate("Профіль", { screen: "SignIn" })
-      } catch (error) {
-        const errorCode = error.code
-        const errorMessage = error.message
-        alert(errorCode, errorMessage)
-        console.log(error)
-      }
-    } else {
-      Alert.alert(
-        "Помилка",
-        "Пароль повинен містити не менше 8 символів і співпадати з підтвердженням"
-      )
-    }
-  }
-
-  const ChangeName = async () => {
+  const handleChangeName = async () => {
     if (isLogedIn) {
       ref = doc(firestoreDatabase, "users", uid)
       await updateDoc(ref, {
         first_name: firstNameInput,
         last_name: lastNameInput,
-        certificate: certificateInput,
       })
-      dispatch(authActions.changeCertificate(certificateInput))
-      navigation.navigate("Профіль", { screen: "LoggIn" })
+      dispatch(
+        authActions.changeName({
+          first_name: firstNameInput,
+          last_name: lastNameInput,
+        })
+      )
+      navigation.navigate("Профіль", { screen: "Menu" })
     } else {
       Alert.alert("Помилка", "Ви не увійшли в систему")
     }
   }
 
+  const handlePush = async () => {
+    if (isLogedIn) {
+      const toLowLength = docsTM.every((doc) => doc.documentId.length >= 8)
+      console.log(docsTM, toLowLength)
+      //
+      try {
+        if (toLowLength) {
+          console.log(docsTM)
+          ref = doc(firestoreDatabase, "users", uid)
+          await updateDoc(ref, {
+            certificate: docsTM,
+          })
+          dispatch(authActions.changeCertificate(docsTM))
+          navigation.navigate("Профіль", { screen: "Menu" })
+        } else {
+          return
+        }
+      } catch (error) {
+        console.log(error)
+        Alert.alert("Розмір ТМ повинен бути більше за 7 символів")
+      }
+    }
+  }
+
+  const handleGoToMenu = () => {
+    navigation.navigate("Профіль", { screen: "Menu" })
+  }
+
   const handleGoToChangeName = () => {
     navigation.navigate("Профіль", { screen: "ChangeName" })
+  }
+
+  const handleGoToChangeTM = () => {
+    navigation.navigate("Профіль", { screen: "ChangeDocs" })
   }
 
   const handleSignOut = () => {
@@ -101,6 +101,8 @@ const useSignIn = ({ navigation }) => {
 
   return {
     isLogedIn,
+    docsTM,
+    setDocsTM,
 
     firstNameInput,
     setFirstNameInput,
@@ -116,9 +118,14 @@ const useSignIn = ({ navigation }) => {
     passwordConfirm,
     setPasswordConfirm,
 
+    handlePush,
+    handleChangeName,
     handleSignOut,
     handleGoToChangeName,
+
+    handleGoToMenu,
+    handleGoToChangeTM,
   }
 }
 
-export default useSignIn
+export default useLogedIn

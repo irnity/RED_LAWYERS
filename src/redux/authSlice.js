@@ -7,7 +7,7 @@ const initialAuthState = {
   isLogedIn: false,
   first_name: "",
   last_name: "",
-  certificateNumber: "",
+  certificateNumber: [],
   uid: "",
 }
 
@@ -40,8 +40,6 @@ const authSlice = createSlice({
           state.certificateNumber = actions.payload.certificate
           console.log(state)
         }
-      } else {
-        c
       }
     },
     chageUID: (state, actions) => {
@@ -51,6 +49,10 @@ const authSlice = createSlice({
     changeCertificate: (state, actions) => {
       state.certificateNumber = actions.payload
       console.log(state)
+    },
+    changeName: (state, actions) => {
+      state.first_name = actions.payload.first_name
+      state.last_name = actions.payload.last_name
     },
     signOut: (state) => {
       state.isLogedIn = false

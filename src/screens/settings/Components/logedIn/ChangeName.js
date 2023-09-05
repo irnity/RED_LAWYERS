@@ -9,10 +9,11 @@ import {
   View,
 } from "react-native"
 import React from "react"
-import useSignIn from "../../hooks/useSignIn"
+import useLogedIn from "../../hooks/useLogedIn"
 import { useDispatch, useSelector } from "react-redux"
+import CustomButton from "../../../../components/buttons/CustomButton"
 
-const ChangeName = () => {
+const ChangeName = ({ navigation }) => {
   const { isLogedIn } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
 
@@ -21,23 +22,16 @@ const ChangeName = () => {
     setFirstNameInput,
     lastNameInput,
     setLastNameInput,
-    certificateInput,
-    setCertificateInput,
 
-    email,
-    setEmail,
-    password,
-    setPassword,
-    passwordConfirm,
-    setPasswordConfirm,
-
+    handleGoToMenu,
+    handleChangeName,
     handleSignIn,
-  } = useSignIn({ navigation })
+  } = useLogedIn({ navigation })
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.headerText}>Реєстрація</Text>
+        <Text style={styles.headerText}>Зміна Імені та Прізвища</Text>
         <KeyboardAvoidingView style={styles.box} behavior="padding">
           <View style={styles.personalInfoContainer}>
             <View>
@@ -62,78 +56,19 @@ const ChangeName = () => {
                 onChangeText={(text) => setLastNameInput(text)}
               />
             </View>
-            <View>
-              <TextInput
-                style={
-                  certificateInput.length >= 2
-                    ? styles.inputCorrect
-                    : styles.input
-                }
-                placeholder="Сертифікат"
-                value={certificateInput}
-                onChangeText={(text) => setCertificateInput(text)}
-              />
-              <Text
-                style={{
-                  color: "gray",
-                  fontSize: 12,
-                  textAlign: "left",
-                  marginLeft: 15,
-                }}
-              >
-                Необов'язково
-              </Text>
-            </View>
           </View>
-          {isLogedIn ? null : (
-            <>
-              <View>
-                {/* <Text>Пошта</Text> */}
-                <TextInput
-                  style={email.length > 5 ? styles.inputCorrect : styles.input}
-                  placeholder="Пошта"
-                  autoComplete="email"
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                  value={email}
-                  onChangeText={(text) => setEmail(text)}
-                />
-              </View>
 
-              <View>
-                {/* <Text>Пароль</Text> */}
-                <TextInput
-                  style={
-                    password.length >= 8 ? styles.inputCorrect : styles.input
-                  }
-                  placeholder="Пароль"
-                  secureTextEntry={true}
-                  value={password}
-                  onChangeText={(text) => setPassword(text)}
-                />
-              </View>
-              <View>
-                {/* <Text>Пароль</Text> */}
-                <TextInput
-                  style={
-                    password === passwordConfirm && passwordConfirm >= 8
-                      ? styles.inputCorrect
-                      : styles.input
-                  }
-                  placeholder="Підтвердити"
-                  secureTextEntry={true}
-                  value={passwordConfirm}
-                  onChangeText={(text) => setPasswordConfirm(text)}
-                />
-              </View>
-            </>
-          )}
           <View>
-            <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-              <Text style={styles.buttonOutlineText}>
-                {isLogedIn ? "Змінити дані" : "Зареєструватися"}
-              </Text>
-            </TouchableOpacity>
+            <CustomButton
+              color={"red"}
+              text={"Змінити дані"}
+              handler={handleChangeName}
+            />
+            <CustomButton
+              color={"white"}
+              text={"Повернутися"}
+              handler={handleGoToMenu}
+            />
           </View>
         </KeyboardAvoidingView>
       </SafeAreaView>
@@ -157,9 +92,10 @@ const styles = StyleSheet.create({
   box: {
     flex: 1,
     marginTop: 10,
+    width: "80%",
   },
   personalInfoContainer: {
-    marginBottom: 50,
+    marginBottom: 20,
   },
   input: {
     backgroundColor: "white",

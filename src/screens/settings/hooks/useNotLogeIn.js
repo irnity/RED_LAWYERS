@@ -11,16 +11,22 @@ import { authActions } from "../../../redux/authSlice"
 
 const useNotLogeIn = ({ navigation }) => {
   const dispatch = useDispatch()
-  const { isLogedIn, uid, first_name, last_name, certificateNumber } =
+  const { isAdmin, isLogedIn, uid, first_name, last_name, certificateNumber } =
     useSelector((state) => state.auth)
 
   const [isLoading, setIsLoading] = useState(true)
-  // input states
+  // state for login
   const [Email, setEmail] = useState("")
   const [Password, setPassword] = useState("")
+  // state for signIn
+  const [firstNameInput, setFirstNameInput] = useState("")
+  const [lastNameInput, setLastNameInput] = useState("")
+  const [certificateInput, setCertificateInput] = useState("")
+  const [passwordConfirm, setPasswordConfirm] = useState("")
   // error
   const [error, setError] = useState("")
 
+  // loading
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
@@ -29,6 +35,7 @@ const useNotLogeIn = ({ navigation }) => {
     return () => clearTimeout(timer)
   }, [])
 
+  // error timeout
   useEffect(() => {
     const timeout = setTimeout(() => {
       setError("")
@@ -37,7 +44,7 @@ const useNotLogeIn = ({ navigation }) => {
   }, [error])
 
   // login
-  const handleSignIn = async () => {
+  const handleLogin = async () => {
     try {
       const user = await signInWithEmailAndPassword(auth, Email, Password)
       const data = {
@@ -55,13 +62,9 @@ const useNotLogeIn = ({ navigation }) => {
       data.last_name = information.last_name
       data.certificate = information.certificate
 
-      dispatch(authActions.isLogedInCheck(data))
+      navigation.navigate("Чат")
 
-      if (await isAdmin) {
-        await navigation.navigate("Чат", { screen: "AdminChat" })
-      } else {
-        await navigation.navigate("Чат", { screen: "UserChat" })
-      }
+      dispatch(authActions.isLogedInCheck(data))
     } catch (error) {
       setError("Невірний логін або пароль")
       const errorCode = error.code
@@ -70,12 +73,7 @@ const useNotLogeIn = ({ navigation }) => {
     }
   }
 
-  // state for sign in or change information
-  const [firstNameInput, setFirstNameInput] = useState("")
-  const [lastNameInput, setLastNameInput] = useState("")
-  const [certificateInput, setCertificateInput] = useState("")
-  const [passwordConfirm, setPasswordConfirm] = useState("")
-
+  // signIn
   const handleCreateUser = async () => {
     if (
       Password === passwordConfirm &&
@@ -85,29 +83,26 @@ const useNotLogeIn = ({ navigation }) => {
       lastNameInput !== ""
     ) {
       try {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          Email,
-          Password
-        )
-        await setDoc(doc(firestoreDatabase, "users", userCredential.user.uid), {
+        const user = await createUserWithEmailAndPassword(auth, Email, Password)
+        const data = {
+          uid: user.user.uid,
+          first_name: firstNameInput,
+          last_name: lastNameInput,
+          certificate: [],
+        }
+        await setDoc(doc(firestoreDatabase, "users", user.user.uid), {
           email: Email,
           first_name: firstNameInput,
           last_name: lastNameInput,
-          certificate: certificateInput,
+          certificate: [],
         })
-        await setDoc(
-          doc(firestoreDatabase, "messages", userCredential.user.uid),
-          {
-            messages: [],
-          }
-        )
-        navigation.navigate("Профіль", { screen: "SignIn" })
+        await setDoc(doc(firestoreDatabase, "messages", user.user.uid), {
+          messages: [],
+        })
+        await dispatch(authActions.isLogedInCheck(data))
+        await navigation.navigate("Чат", { screen: "UserChat" })
       } catch (error) {
-        const errorCode = error.code
-        const errorMessage = error.message
-        alert(errorCode, errorMessage)
-        console.log(error)
+        Alert.alert("Помилка", "Перевірте правильність написання даних")
       }
     } else {
       Alert.alert(
@@ -117,30 +112,66 @@ const useNotLogeIn = ({ navigation }) => {
     }
   }
 
+  // handle restore password
+  const handleRestorePassword = () => {
+    try {
+      sendPasswordResetEmail(auth, Email)
+      setMessage(
+        "Перевірте пошту, ми відправили вам листа на відновлення паролю"
+      )
+      // console.log("email was sent")
+      setTimeout(() => {
+        handleGoToLogin()
+      }, 3000)
+    } catch (error) {
+      const errorCode = error.code
+      const errorMessage = error.message
+      alert(errorCode, errorMessage)
+      setTimeout(() => {
+        handleGoToLogin()
+      }, 3000)
+    }
+  }
+
+  // go to login
+  const handleGoToLogin = () => {
+    navigation.navigate("Профіль", { screen: "LogIn" })
+  }
+
+  // go to signIn
   const handleGoToSignIn = () => {
     navigation.navigate("Профіль", { screen: "SignIn" })
   }
 
+  // go to restore password
+  const handleGoToRestorePassword = () => {
+    navigation.navigate("Профіль", { screen: "RestorePassword" })
+  }
+
   return {
     isLoading,
+    // login
     Email,
     setEmail,
     Password,
     setPassword,
-
+    // signIn
     firstNameInput,
     setFirstNameInput,
     lastNameInput,
     setLastNameInput,
     certificateInput,
     setCertificateInput,
-
     passwordConfirm,
     setPasswordConfirm,
 
     error,
+
+    handleRestorePassword,
+    handleGoToLogin,
     handleCreateUser,
-    handleSignIn,
+    handleLogin,
+    handleGoToRestorePassword,
     handleGoToSignIn,
   }
 }

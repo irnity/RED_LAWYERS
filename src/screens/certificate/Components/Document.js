@@ -16,6 +16,8 @@ import StageList from "./StageList"
 import Descriptions from "./Descriptions"
 // redux
 import { useSelector } from "react-redux"
+import CertificatesList from "./CertificatesList"
+import NeedCertificate from "./NeedCertificate"
 
 const Document = () => {
   const { loading } = useCerificates()
@@ -33,20 +35,6 @@ const Document = () => {
   }
 
   // fetch certificates
-  const [certificate, setCertificate] = useState([])
-
-  const fetchCertificates = async () => {
-    if (certificateNumber === "") return alert("Введіть номер діловодства")
-    try {
-      const response = await fetch(
-        `https://sis.nipo.gov.ua/api/v1/open-data/${certificateNumber}/`
-      )
-      const data = await response.json()
-      setCertificate(data.data.stages)
-    } catch (e) {
-      Alert.alert("Помилка", "Перевірте номер діловодства")
-    }
-  }
 
   if (loading) return <CustomActivityIndicator />
 
@@ -58,21 +46,15 @@ const Document = () => {
             {/*  */}
             {/* Title text */}
             {/*  */}
-            <View>
-              <Text style={styles.titleText}>
-                Стан діловодства {"\n"}
-                {certificateNumber}
-              </Text>
-            </View>
 
             {/*  */}
             {/* description toggle button*/}
             {/*  */}
             <TouchableOpacity onPress={handleToggel} style={styles.toggelBox}>
-              <Text style={{ fontWeight: "500", fontSize: 25 }}>Стадії</Text>
+              <Text style={{ fontWeight: "500", fontSize: 20 }}>Стадії</Text>
               <Feather
                 name={Icon}
-                size={35}
+                size={30}
                 color={"black"}
                 style={{ marginTop: 5 }}
               />
@@ -86,22 +68,14 @@ const Document = () => {
             {/*  */}
             {/* Fetch Certificates Button*/}
             {/*  */}
-            {certificate.length === 0 ? (
-              <TouchableOpacity
-                onPress={fetchCertificates}
-                style={styles.fetchButton}
-              >
-                <Text>Отримати Сертифікат</Text>
-              </TouchableOpacity>
+            {certificateNumber.length === 0 ? (
+              <NeedCertificate />
             ) : (
-              <>
-                {/*  */}
-                {/* Stage List */}
-                {/*  */}
-                {certificate.map((item) => (
-                  <StageList item={item} key={item.title} />
+              <View style={{ marginTop: 10 }}>
+                {certificateNumber.map((item) => (
+                  <CertificatesList item={item} key={item.id} />
                 ))}
-              </>
+              </View>
             )}
           </View>
         </View>
@@ -124,6 +98,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   width: {
+    marginTop: 10,
     width: "90%",
   },
 

@@ -3,21 +3,24 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from "react-native"
 import React from "react"
+import CustomButton from "../../../../components/buttons/CustomButton"
 import useNotLogeIn from "../../hooks/useNotLogeIn"
 
 const LogIn = ({ navigation }) => {
   const {
-    isLoading,
+    // login
     Email,
     setEmail,
     Password,
-    error,
     setPassword,
-    handleSignIn,
+
+    error,
+
+    handleLogin,
+    handleGoToRestorePassword,
     handleGoToSignIn,
   } = useNotLogeIn({
     navigation,
@@ -29,13 +32,14 @@ const LogIn = ({ navigation }) => {
         <TextInput
           placeholder="Email"
           keyboardType="email-address"
-          // autoCapitalize="none"
+          autoCapitalize="none"
           value={Email}
           onChangeText={(text) => setEmail(text)}
           style={error === "" ? styles.input : styles.inputError}
         />
         <TextInput
           placeholder="Password"
+          secureTextEntry
           value={Password}
           onChangeText={(text) => setPassword(text)}
           style={error === "" ? styles.input : styles.inputError}
@@ -49,23 +53,17 @@ const LogIn = ({ navigation }) => {
         )}
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-          <Text style={styles.buttonText}>Увійти</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            navigation.navigate("Профіль", { screen: "RestorePassword" })
-          }}
-        >
-          <Text style={styles.buttonText}>Не пам'ятаю пароль</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.buttonOutline]}
-          onPress={handleGoToSignIn}
-        >
-          <Text style={styles.buttonOutlineText}>Зареєструватися</Text>
-        </TouchableOpacity>
+        <CustomButton color={"red"} handler={handleLogin} text={"Увійти"} />
+        <CustomButton
+          color={"red"}
+          handler={handleGoToRestorePassword}
+          text={"Не пам'ятаю паролю"}
+        />
+        <CustomButton
+          color={"white"}
+          handler={handleGoToSignIn}
+          text={"Зареєструватися"}
+        />
       </View>
     </KeyboardAvoidingView>
   )

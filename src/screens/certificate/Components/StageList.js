@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 15,
-    marginBottom: 15,
+    marginTop: 5,
+    marginBottom: 5,
   },
   statusDone: {
     backgroundColor: "#5cb85c",
