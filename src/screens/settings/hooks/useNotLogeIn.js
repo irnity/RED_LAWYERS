@@ -5,9 +5,10 @@ import {
 } from "firebase/auth"
 import React, { useEffect, useState } from "react"
 import { auth, firestoreDatabase } from "../../../services/firebase"
-import { doc, getDoc, setDoc } from "firebase/firestore"
+import { Timestamp, doc, getDoc, setDoc } from "firebase/firestore"
 import { useDispatch, useSelector } from "react-redux"
 import { authActions } from "../../../redux/authSlice"
+import { Alert } from "react-native"
 
 const useNotLogeIn = ({ navigation }) => {
   const dispatch = useDispatch()
@@ -95,6 +96,9 @@ const useNotLogeIn = ({ navigation }) => {
           first_name: firstNameInput,
           last_name: lastNameInput,
           certificate: [],
+          lastMessageTime: Timestamp.now(),
+          lastMessage: "",
+          unreadMessages: 0,
         })
         await setDoc(doc(firestoreDatabase, "messages", user.user.uid), {
           messages: [],
@@ -102,7 +106,12 @@ const useNotLogeIn = ({ navigation }) => {
         await dispatch(authActions.isLogedInCheck(data))
         await navigation.navigate("Чат", { screen: "UserChat" })
       } catch (error) {
-        Alert.alert("Помилка", "Перевірте правильність написання даних")
+        // Alert.alert("Помилка", `${Перевірте правильність написання даних}`)
+        if (error.code === "auth/email-already-in-use") {
+          Alert.alert("Помилка", "Ця пошта вже зареєстрована")
+        } else {
+          Alert.alert("Помилка", "Перевірте правильність написання даних")
+        }
       }
     } else {
       Alert.alert(

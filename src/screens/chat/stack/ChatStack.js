@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import Chat from "../../../screens/chat/Chat"
-import AdminChat from "../../../screens/chat/Components/AdminChat"
+import Chat from "../Chat"
+import AdminChat from "../Components/AdminChat"
 
 const Stack = createNativeStackNavigator()
 

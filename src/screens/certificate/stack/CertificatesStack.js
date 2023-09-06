@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import Certificates from "../../../screens/certificate/Certificates"
+import Certificates from "../Certificates"
 
 const Stack = createNativeStackNavigator()
 

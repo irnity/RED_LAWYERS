@@ -12,7 +12,8 @@ function Certificates({ navigation }) {
   const { isLogedIn, certificateNumber } = useSelector((state) => state.auth)
 
   const goToSettings = () => {
-    navigation.navigate("Профіль", { screen: "LogIn" })
+    // console.log("?")
+    navigation.navigate("Профіль", { screen: "Menu" })
   }
 
   useEffect(() => {}, [])
@@ -23,7 +24,7 @@ function Certificates({ navigation }) {
   }
 
   // if loged in but no certificate number
-  if (certificateNumber === "") {
+  if (certificateNumber.length === 0) {
     return <NeedCertificate goToSettings={goToSettings} />
   }
 

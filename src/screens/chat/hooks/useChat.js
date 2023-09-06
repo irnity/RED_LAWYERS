@@ -28,49 +28,35 @@ const useChat = ({ navigation }) => {
   const [message, setMessage] = useState("")
 
   useEffect(() => {
-    if (!isLogedIn || !uid) {
-      setIsLoading(false)
+    if (isLogedIn === false || uid === "") {
       return
     }
+
     fetchMessages()
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
-
-    return () => clearTimeout(timer)
   }, [isAdmin, isLogedIn, uid])
-
-  // navigate to settings screen
-  const goToSettings = () => {
-    navigation.navigate("Профіль", { screen: "LogIn" })
-  }
-
-  // navigate to admin chat screen
-  const goToAdminChat = () => {
-    navigation.navigate("Чат", { screen: "AdminChat" })
-    setTimeout(() => {
-      dispatch(authActions.chageUID(""))
-      setData([])
-      setMessage("")
-    }, 500)
-  }
 
   // fetch messages from firebase
   const fetchMessages = async () => {
-    const q = query(
-      collection(firestoreDatabase, "messages", uid, "messages"),
-      orderBy("createdAt", "desc")
-    )
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const messages = []
-      querySnapshot.forEach((doc) => {
-        messages.push({
-          id: doc.id,
-          ...doc.data(),
+    setIsLoading(true)
+    try {
+      const q = query(
+        collection(firestoreDatabase, "messages", uid, "messages"),
+        orderBy("createdAt", "desc")
+      )
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const messages = []
+        querySnapshot.forEach((doc) => {
+          messages.push({
+            id: doc.id,
+            ...doc.data(),
+          })
         })
+        setData(messages)
       })
-      setData(messages)
-    })
+      setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false)
+    }
   }
 
   // send message to firebase
@@ -93,6 +79,21 @@ const useChat = ({ navigation }) => {
       lastMessageTime: Timestamp.now(),
       unreadMessages: increment(1),
     })
+  }
+
+  // navigate to settings screen
+  const goToSettings = () => {
+    navigation.navigate("Профіль", { screen: "LogIn" })
+  }
+
+  // navigate to admin chat screen
+  const goToAdminChat = () => {
+    navigation.navigate("Чат", { screen: "AdminChat" })
+    setTimeout(() => {
+      dispatch(authActions.chageUID(""))
+      setData([])
+      setMessage("")
+    }, 500)
   }
 
   return {

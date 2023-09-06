@@ -4,13 +4,14 @@ const useCerificates = () => {
   const [loading, setloading] = useState(true)
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setloading(false)
-    }, 1000)
+    // const timer = setTimeout(() => {
+    // setloading(false)
+    // }, 0)
 
-    return () => {
-      clearTimeout(timer)
-    }
+    // return () => {
+    // clearTimeout(timer)
+    // }
+    setloading(false)
   }, [])
 
   return { loading }

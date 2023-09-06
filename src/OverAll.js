@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux"
 import { authActions } from "./redux/authSlice"
 // components
 import Title from "./components/title/Title"
-import TabScreen from "./components/tabs/TabScreen"
+import TabScreen from "./TabScreen"
 // firebase
 import { auth, firestoreDatabase } from "./services/firebase"
 import { onAuthStateChanged } from "firebase/auth"
@@ -67,6 +67,9 @@ const OverAll = ({ Tab }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Title />
+      {/* <View style={styles.congradulation}>
+        <Text>Вітаємо з днем незалежності</Text>
+      </View> */}
       <TabScreen />
     </SafeAreaView>
   )
@@ -77,5 +80,12 @@ export default OverAll
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  congradulation: {
+    width: "100%",
+    height: 50,
+    backgroundColor: "tomato",
+    justifyContent: "center",
+    alignItems: "center",
   },
 })

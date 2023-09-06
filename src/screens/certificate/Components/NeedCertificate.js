@@ -4,9 +4,9 @@ import useCerificates from "../hooks/useCerificates"
 import CustomActivityIndicator from "../../../components/activityIndicator/CustomActivityIndicator"
 
 const NeedCertificate = ({ goToSettings }) => {
-  const { loading } = useCerificates()
+  // const { loading } = useCerificates()
 
-  if (loading) return <CustomActivityIndicator />
+  // if (loading) return <CustomActivityIndicator />
 
   return (
     <View
@@ -14,14 +14,20 @@ const NeedCertificate = ({ goToSettings }) => {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        marginTop: 20,
       }}
     >
-      <TouchableOpacity onPress={goToSettings}>
+      <TouchableOpacity
+        onPress={goToSettings}
+        style={{
+          width: "80%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <Text
           style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
+            textAlign: "center",
             width: "100%",
             borderWidth: 1,
             borderColor: "tomato",

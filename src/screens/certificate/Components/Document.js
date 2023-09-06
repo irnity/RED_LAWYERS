@@ -44,10 +44,6 @@ const Document = () => {
         <View style={styles.center}>
           <View style={styles.width}>
             {/*  */}
-            {/* Title text */}
-            {/*  */}
-
-            {/*  */}
             {/* description toggle button*/}
             {/*  */}
             <TouchableOpacity onPress={handleToggel} style={styles.toggelBox}>
@@ -68,15 +64,11 @@ const Document = () => {
             {/*  */}
             {/* Fetch Certificates Button*/}
             {/*  */}
-            {certificateNumber.length === 0 ? (
-              <NeedCertificate />
-            ) : (
-              <View style={{ marginTop: 10 }}>
-                {certificateNumber.map((item) => (
-                  <CertificatesList item={item} key={item.id} />
-                ))}
-              </View>
-            )}
+            <View style={{ marginTop: 10 }}>
+              {certificateNumber.map((item) => (
+                <CertificatesList item={item} key={item.id} />
+              ))}
+            </View>
           </View>
         </View>
       </ScrollView>

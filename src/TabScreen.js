@@ -3,13 +3,13 @@ import React from "react"
 import { StyleSheet, Text, View } from "react-native"
 import { Feather } from "@expo/vector-icons"
 // Navigations Stacks
-import { UserChatStack, AdminChatStack } from "./Stacks/ChatStack"
-import SettingsStack from "../../screens/settings/stack/SettingsStack"
-import CertificatesStack from "./Stacks/CertificatesStack"
-import LandingStack from "./Stacks/LandingStack"
+import { UserChatStack, AdminChatStack } from "./screens/chat/stack/ChatStack"
+import SettingsStack from "./screens/settings/stack/SettingsStack"
+import LandingStack from "./screens/landing/stack/LandingStack"
 // redux
 import { useSelector } from "react-redux"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import CertificatesStack from "./screens/certificate/stack/CertificatesStack"
 
 const Tab = createBottomTabNavigator()
 

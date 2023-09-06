@@ -9,6 +9,7 @@ import {
 import React, { useState } from "react"
 import { Feather } from "@expo/vector-icons"
 import { useSelector } from "react-redux"
+import CustomActivityIndicator from "../../../components/activityIndicator/CustomActivityIndicator"
 
 const ChatElement = ({
   data,
@@ -16,6 +17,7 @@ const ChatElement = ({
   setMessage,
   sendMessage,
   fetchMessages,
+  isLoading,
 }) => {
   const [refresh, setRefresh] = useState(false)
   const { isLogedIn } = useSelector((state) => state.auth)
@@ -34,6 +36,8 @@ const ChatElement = ({
             >
               <Text>Напишіть ваше перше повідомлення</Text>
             </View>
+          ) : isLoading ? (
+            <CustomActivityIndicator />
           ) : (
             <FlatList
               data={data}
