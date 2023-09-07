@@ -11,17 +11,18 @@ import { auth } from "../../../../services/firebase"
 import CustomInput from "../../../../components/input/CustomInput"
 import CustomButton from "../../../../components/buttons/CustomButton"
 import useNotLogeIn from "../../hooks/useNotLogeIn"
-
+import CustomHeaderText from "../../../../components/customHeaderText/CustomHeaderText"
 const RestorePassword = ({ navigation }) => {
-  const { Email, setEmail, handleRestorePassword } = useNotLogeIn({
-    navigation,
-  })
+  const { Email, setEmail, handleRestorePassword, handleGoToLogin } =
+    useNotLogeIn({
+      navigation,
+    })
   const [message, setMessage] = useState("")
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Відновлення паролю</Text>
-      <View style={{ gap: 20 }}>
+      <View>
+        <CustomHeaderText text={"Відновлення паролю"} />
         <CustomInput
           value={Email}
           setValue={setEmail}
@@ -32,6 +33,11 @@ const RestorePassword = ({ navigation }) => {
           color={"red"}
           handler={handleRestorePassword}
           text={"Відновити"}
+        />
+        <CustomButton
+          color={"white"}
+          handler={handleGoToLogin}
+          text={"Повернутись до входу"}
         />
         {message && <Text style={styles.text}>{message}</Text>}
       </View>
@@ -47,12 +53,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 20,
   },
-  header: {
-    fontSize: 24,
-    fontWeight: "700",
-    marginBottom: 10,
-    textAlign: "center",
-  },
+
   text: {
     color: "tomato",
     textAlign: "center",

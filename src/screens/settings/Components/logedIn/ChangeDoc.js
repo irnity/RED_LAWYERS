@@ -12,7 +12,7 @@ import CustomButton from "../../../../components/buttons/CustomButton"
 import useLogedIn from "../../hooks/useLogedIn"
 import DocField from "./DocField"
 import { useSelector } from "react-redux"
-
+import CustomHeaderText from "../../../../components/customHeaderText/CustomHeaderText"
 const ChangeDoc = ({ navigation }) => {
   const { docsTM, setDocsTM, handleGoToMenu, handlePush } = useLogedIn({
     navigation,
@@ -33,9 +33,12 @@ const ChangeDoc = ({ navigation }) => {
   const { certifaicateNumber } = useSelector((state) => state.auth)
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps={"handled"}
+    >
       <SafeAreaView style={styles.container}>
-        <Text style={styles.headerText}>Ваші наяві ТМ</Text>
+        <CustomHeaderText text={"Ваші наяві ТМ"} />
         <KeyboardAvoidingView style={styles.box} behavior="padding">
           {docsTM.map((doc) => (
             <DocField
@@ -47,7 +50,7 @@ const ChangeDoc = ({ navigation }) => {
             />
           ))}
 
-          <View style={{ marginTop: 15 }}>
+          <View>
             <CustomButton
               color={"red"}
               text={"Додати ще одну ТМ"}
@@ -77,23 +80,16 @@ const ChangeDoc = ({ navigation }) => {
 export default ChangeDoc
 
 const styles = StyleSheet.create({
-  headerText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "tomato",
-  },
   container: {
-    marginTop: 10,
     flex: 1,
     alignItems: "center",
   },
   box: {
     flex: 1,
-    marginTop: 10,
-    width: "80%",
+    width: "90%",
   },
   personalInfoContainer: {
-    marginBottom: 20,
+    marginBottom: 10,
   },
   input: {
     backgroundColor: "white",
@@ -101,7 +97,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "tomato",
     borderWidth: 1,
-    marginTop: 15,
+    marginBottom: 10,
     width: "100%",
     fontSize: 16,
   },
@@ -110,7 +106,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     borderWidth: 1,
-    marginTop: 15,
+    marginBottom: 10,
     width: "100%",
     fontSize: 16,
     borderColor: "#45c71e",
@@ -128,7 +124,7 @@ const styles = StyleSheet.create({
     width: 300,
     padding: 15,
     borderRadius: 10,
-    marginTop: 25,
+    marginBottom: 10,
     // alignItems: "center",
   },
   buttonOutlineText: {

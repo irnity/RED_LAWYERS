@@ -127,7 +127,15 @@ const DATA = [
 function WorkWith() {
   return (
     <View style={styles.cart}>
-      <Text style={styles.mainText}>Нам довіряють</Text>
+      <View
+        style={{
+          backgroundColor: "tomato",
+          borderRadius: 10,
+          marginBottom: 10,
+        }}
+      >
+        <Text style={styles.mainText}>Нам довіряють</Text>
+      </View>
       <View style={styles.images}>
         {DATA.map((item) => {
           return (
@@ -142,22 +150,19 @@ function WorkWith() {
 const styles = StyleSheet.create({
   cart: {},
   mainText: {
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: "bold",
-    marginTop: 20,
-    marginBottom: 20,
+
     padding: 10,
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: "tomato",
-    backgroundColor: "tomato",
     textAlign: "center",
     color: "white",
   },
   secondaryText: {
     fontSize: 15,
     lineHeight: 30,
-    marginBottom: 20,
+    marginBottom: 10,
     padding: 10,
     borderWidth: 1,
     borderRadius: 10,
@@ -178,7 +183,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "tomato",
     borderRadius: 10,
-    marginBottom: 30,
+    marginBottom: 10,
     backgroundColor: "white",
   },
 })

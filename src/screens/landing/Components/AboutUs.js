@@ -4,30 +4,34 @@ import { View, Text, StyleSheet, Image } from "react-native"
 function AboutUs() {
   return (
     <View>
-      <Text style={styles.mainText}>Познайомимось?</Text>
+      <View style={styles.border}>
+        <Text style={styles.mainText}>Познайомимось?</Text>
+      </View>
       <View style={styles.section}>
-        <Text style={styles.aboutUsText}>
-          <Text style={styles.textCapital}>Назар Костенко</Text>
-          {"\n"}
-          Розробка договорів, супровід підписання угод, патентування,
-          ліцензування.
-        </Text>
         <Image
           source={require("../../../../assets/author_1.png")}
           style={styles.image}
         />
+        <View style={styles.textBox}>
+          <Text style={styles.textCapital}>Назар Костенко</Text>
+          <Text style={styles.text}>Розробка договорів</Text>
+          <Text style={styles.text}>Супровід підписання угод</Text>
+          <Text style={styles.text}>Патентування</Text>
+          <Text style={styles.text}>Ліцензування</Text>
+        </View>
       </View>
       <View style={styles.section}>
-        <Text style={styles.aboutUsText}>
-          <Text style={styles.textCapital}>Богдан Кузьмович</Text>
-          {"\n"}
-          Торговельні марки, авторське право, корпоративне право, вирішення
-          спорів.
-        </Text>
         <Image
           source={require("../../../../assets/author_2.png")}
           style={styles.image}
         />
+        <View style={styles.textBox}>
+          <Text style={styles.textCapital}>Богдан Кузьмович</Text>
+          <Text style={styles.text}>Торговельні марки</Text>
+          <Text style={styles.text}>Авторське право</Text>
+          <Text style={styles.text}>Корпоративне право</Text>
+          <Text style={styles.text}>Вирішення Спорів</Text>
+        </View>
       </View>
     </View>
   )
@@ -35,43 +39,51 @@ function AboutUs() {
 
 const styles = StyleSheet.create({
   mainText: {
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: "bold",
-    marginTop: 20,
-    marginBottom: 30,
     padding: 10,
-    borderWidth: 1,
     borderRadius: 10,
-    borderColor: "#333333",
     color: "white",
     textAlign: "center",
+  },
+  border: {
+    marginBottom: 10,
+    borderRadius: 10,
     backgroundColor: "#333333",
   },
+
   section: {
     width: "100%",
-    flexDirection: "row",
     alignItems: "center",
-    padding: 10,
     borderWidth: 1,
     borderRadius: 10,
     borderColor: "tomato",
-    marginBottom: 30,
+    marginBottom: 10,
+    padding: 2,
   },
 
   image: {
-    width: "40%",
-    height: "100%",
-    resizeMode: "stretch",
+    width: "100%",
+    height: 100,
+    resizeMode: "contain",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
   },
-  aboutUsText: {
-    fontSize: 18,
-    lineHeight: 23,
-    width: "60%",
+  textBox: {
+    width: "100%",
+    alignItems: "center",
   },
   textCapital: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 22,
     color: "tomato",
+    fontWeight: "bold",
+  },
+  text: {
+    width: "100%",
+    fontSize: 16,
+    lineHeight: 20,
+    textAlign: "center",
   },
 })
 

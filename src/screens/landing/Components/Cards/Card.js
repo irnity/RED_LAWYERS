@@ -33,8 +33,21 @@ function Card({ title, text }) {
         }}
       >
         <View style={styles.top}>
-          <Text style={styles.mainText}>{title}</Text>
-          <Feather name={Icon} size={50} />
+          <View
+            style={{
+              width: "85%",
+            }}
+          >
+            <Text style={styles.mainText}>{title}</Text>
+          </View>
+          <View
+            style={{
+              width: "15%",
+              alignItems: "center",
+            }}
+          >
+            <Feather name={Icon} size={50} />
+          </View>
         </View>
         {toggle ? (
           <View style={styles.bottom}>
@@ -48,11 +61,11 @@ function Card({ title, text }) {
 
 const styles = StyleSheet.create({
   mainText: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
   },
   secondaryText: {
-    fontSize: 18,
+    fontSize: 16,
     lineHeight: 25,
   },
   card: {
@@ -60,7 +73,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: "tomato",
-    marginBottom: 30,
+    marginBottom: 10,
   },
   top: {
     flexDirection: "row",
@@ -68,7 +81,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bottom: {
-    marginTop: 10,
+    marginBottom: 10,
   },
 })
 

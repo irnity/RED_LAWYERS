@@ -9,6 +9,8 @@ const initialAuthState = {
   last_name: "",
   certificateNumber: [],
   uid: "",
+  success: false,
+  message: "",
 }
 
 const KEYS = [
@@ -62,6 +64,10 @@ const authSlice = createSlice({
       state.certificateNumber = ""
       state.uid = ""
       console.log(state)
+    },
+    changeSuccess: (state, actions) => {
+      state.success = actions.payload.success
+      state.message = actions.payload.message
     },
   },
 })

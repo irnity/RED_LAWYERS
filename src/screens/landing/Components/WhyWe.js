@@ -4,7 +4,9 @@ import { View, Text, StyleSheet } from "react-native"
 function WhyWe() {
   return (
     <View>
-      <Text style={[styles.mainText, styles.textCenter]}>Чому ми?</Text>
+      <View style={styles.backgroundRound}>
+        <Text style={styles.mainText}>Чому ми?</Text>
+      </View>
       <Text style={styles.secondaryText}>
         <Text style={styles.textCapital}>Оперативність</Text>
         {"\n"}
@@ -29,22 +31,21 @@ function WhyWe() {
 
 const styles = StyleSheet.create({
   mainText: {
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: "bold",
-    marginTop: 20,
-    marginBottom: 30,
     padding: 10,
-    borderWidth: 1,
-    borderRadius: 10,
-    borderColor: "tomato",
     color: "white",
     textAlign: "center",
+  },
+  backgroundRound: {
+    marginBottom: 10,
+    borderRadius: 10,
     backgroundColor: "tomato",
   },
   secondaryText: {
-    fontSize: 18,
-    lineHeight: 30,
-    marginBottom: 30,
+    fontSize: 16,
+    lineHeight: 25,
+    marginBottom: 10,
     padding: 10,
     borderWidth: 1,
     borderRadius: 10,

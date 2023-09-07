@@ -28,7 +28,7 @@ const CertificatesList = ({ item }) => {
       {certificate.length === 0 ? (
         <CustomButton
           color={"red"}
-          text={`Отримати Сертифікат ${item.documentId}`}
+          text={`Отримати заявку ${item.documentId}`}
           handler={fetchCertificates}
         />
       ) : (
@@ -38,7 +38,7 @@ const CertificatesList = ({ item }) => {
           {/*  */}
           <CustomButton
             color={"white"}
-            text={`Сертифікат ${item.documentId}`}
+            text={`Заявка ${item.documentId}`}
             handler={() => setCertificate([])}
           />
 

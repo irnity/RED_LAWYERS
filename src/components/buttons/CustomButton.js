@@ -37,17 +37,8 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 16,
   },
-  button: {
-    backgroundColor: "tomato",
-    width: "100%",
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 10,
-    alignItems: "center",
-  },
   buttonOutline: {
     color: "white",
-    marginTop: 5,
     borderColor: "tomato",
     backgroundColor: "white",
     borderWidth: 2,

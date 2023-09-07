@@ -47,6 +47,9 @@ const useLogedIn = ({ navigation }) => {
         })
       )
       navigation.navigate("Профіль", { screen: "Menu" })
+      dispatch(
+        authActions.changeSuccess({ success: true, message: "Дані змінені" })
+      )
     } else {
       Alert.alert("Помилка", "Ви не увійшли в систему")
     }
@@ -55,7 +58,7 @@ const useLogedIn = ({ navigation }) => {
   const handlePush = async () => {
     if (isLogedIn) {
       const toLowLength = docsTM.every((doc) => doc.documentId.length >= 8)
-      console.log(docsTM, toLowLength)
+      // console.log(docsTM, toLowLength)
       //
       try {
         if (toLowLength) {
@@ -66,6 +69,12 @@ const useLogedIn = ({ navigation }) => {
           })
           dispatch(authActions.changeCertificate(docsTM))
           navigation.navigate("Профіль", { screen: "Menu" })
+          dispatch(
+            authActions.changeSuccess({
+              success: true,
+              message: "Дані змінені",
+            })
+          )
         } else {
           return
         }

@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   constainer: {
     flex: 1,
     alignItems: "center",
-    width: "95%",
+    width: "90%",
   },
   boxForFlatList: {
     flex: 1,
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     borderColor: "tomato",
     borderRadius: 10,
     padding: 10,
-    marginBottom: 5,
+    marginBottom: 10,
   },
   adminMessageBox: {
     flexDirection: "row",
@@ -131,13 +131,13 @@ const styles = StyleSheet.create({
     backgroundColor: "tomato",
     padding: 10,
     borderRadius: 10,
-    margin: 5,
+    marginBottom: 10,
   },
   userMessage: {
     backgroundColor: "white",
     padding: 10,
     borderRadius: 10,
-    margin: 5,
+    marginBottom: 10,
   },
   adminText: {
     color: "white",
@@ -149,27 +149,26 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 5,
-    marginTop: 5,
+    justifyContent: "space-between",
+    marginBottom: 10,
   },
 
   input: {
     backgroundColor: "white",
     padding: 10,
+    height: 50,
     borderRadius: 10,
-    // borderWidth: 1,
-    margin: 5,
-    width: "80%",
-    // height: "80%",
+    // marginLeft: 5,
+    width: "78%",
     fontSize: 15,
   },
   button: {
+    height: 50,
     backgroundColor: "tomato",
     padding: 10,
     borderRadius: 10,
     width: "20%",
-    // height: "80%",
+    // marginRight: 5,
     alignItems: "center",
   },
   send: {

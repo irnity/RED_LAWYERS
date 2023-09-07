@@ -11,7 +11,7 @@ import React from "react"
 // firebase
 import useNotLogeIn from "../../hooks/useNotLogeIn"
 import CustomButton from "../../../../components/buttons/CustomButton"
-
+import CustomHeaderText from "../../../../components/customHeaderText/CustomHeaderText"
 const SignIn = ({ navigation }) => {
   const {
     Email,
@@ -33,7 +33,7 @@ const SignIn = ({ navigation }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.headerText}>Реєстрація</Text>
+        <CustomHeaderText text={"Реєстрація"} />
         <KeyboardAvoidingView style={styles.box} behavior="padding">
           {/*  */}
           {/* first name & last name */}
@@ -90,7 +90,7 @@ const SignIn = ({ navigation }) => {
 
             <TextInput
               style={
-                Password === passwordConfirm && passwordConfirm >= 8
+                Password == passwordConfirm && passwordConfirm.length >= 8
                   ? styles.inputCorrect
                   : styles.inputIncorrect
               }
@@ -120,18 +120,17 @@ const styles = StyleSheet.create({
     color: "tomato",
   },
   container: {
-    marginTop: 20,
     flex: 1,
     width: "100%",
     alignItems: "center",
   },
   box: {
     flex: 1,
-    marginTop: 10,
+    marginBottom: 10,
     width: "80%",
   },
   personalInfoContainer: {
-    marginBottom: 20,
+    marginBottom: 10,
   },
   inputIncorrect: {
     backgroundColor: "white",
@@ -139,7 +138,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "tomato",
     borderWidth: 1,
-    marginTop: 15,
+    marginBottom: 10,
     width: "100%",
     fontSize: 16,
   },
@@ -148,7 +147,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     borderWidth: 1,
-    marginTop: 15,
+    marginBottom: 10,
     width: "100%",
     fontSize: 16,
     borderColor: "#45c71e",
@@ -161,7 +160,7 @@ const styles = StyleSheet.create({
     width: 300,
     padding: 15,
     borderRadius: 10,
-    marginTop: 25,
+    marginBottom: 10,
   },
   buttonOutlineText: {
     color: "tomato",
@@ -169,7 +168,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   buttonContainer: {
-    marginTop: 20,
+    marginBottom: 10,
     gap: 20,
   },
 })

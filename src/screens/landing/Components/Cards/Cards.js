@@ -106,10 +106,9 @@ function Cards() {
 
 const styles = StyleSheet.create({
   mainText: {
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: "bold",
-    marginTop: 20,
-    marginBottom: 30,
+    marginBottom: 10,
     padding: 10,
     borderWidth: 1,
     borderRadius: 10,
@@ -117,7 +116,7 @@ const styles = StyleSheet.create({
   },
   secondaryText: {
     fontSize: 20,
-    lineHeight: 30,
+    lineHeight: 25,
   },
   card: {
     padding: 10,
@@ -127,7 +126,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 10,
   },
 })
 

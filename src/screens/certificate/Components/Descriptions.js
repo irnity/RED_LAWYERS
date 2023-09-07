@@ -46,7 +46,12 @@ const styles = StyleSheet.create({
   descriptionBox: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 10,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "tomato",
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: "white",
   },
   statusDone: {
     backgroundColor: "#5cb85c",
@@ -54,7 +59,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 100,
     padding: 5,
-    marginLeft: 5,
     marginRight: 5,
   },
 
@@ -64,17 +68,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 100,
     padding: 5,
-    marginLeft: 5,
     marginRight: 5,
   },
   statusNotDone: {
-    backgroundColor: "#fff",
     color: "tomato",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
     padding: 5,
-    marginLeft: 5,
     marginRight: 5,
   },
 })

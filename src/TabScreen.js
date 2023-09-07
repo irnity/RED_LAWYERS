@@ -57,7 +57,7 @@ const TabScreen = () => {
       {/* Сертифікати */}
       {/*  */}
       <Tab.Screen
-        name={"Сертифікат"}
+        name={"Заявки"}
         component={CertificatesStack}
         options={{
           tabBarIcon: ({ focused }) => (

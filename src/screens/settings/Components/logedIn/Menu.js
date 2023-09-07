@@ -9,7 +9,7 @@ import React, { useEffect } from "react"
 import { useSelector } from "react-redux"
 import useLogedIn from "../../hooks/useLogedIn"
 import CustomButton from "../../../../components/buttons/CustomButton"
-
+import CustomHeaderText from "../../../../components/customHeaderText/CustomHeaderText"
 const Menu = ({ navigation }) => {
   const { isAdmin, isLogedIn, first_name, last_name, certificateNumber } =
     useSelector((state) => state.auth)
@@ -31,13 +31,11 @@ const Menu = ({ navigation }) => {
       <View
         style={{
           flex: 1,
-          width: "80%",
+          width: "90%",
         }}
       >
         <View style={styles.Container}>
-          <View style={styles.nameBox}>
-            <Text style={styles.text}>Ваш профіль</Text>
-          </View>
+          <CustomHeaderText text={"Ваш профіль"} />
           <View style={styles.nameBox}>
             <Text style={styles.text}>{`${first_name} ${last_name}`}</Text>
           </View>
@@ -80,8 +78,7 @@ const styles = StyleSheet.create({
     borderColor: "tomato",
     borderRadius: 10,
     padding: 10,
-    marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   certificateBox: {
     width: "100%",
@@ -95,7 +92,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   text: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
   },

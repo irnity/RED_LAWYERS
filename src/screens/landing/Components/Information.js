@@ -31,16 +31,16 @@ function Information() {
 
 const styles = StyleSheet.create({
   block: {
-    marginBottom: 30,
-  },
-  blockText: {
-    fontSize: 18,
-    lineHeight: 30,
-    color: "white",
+    marginBottom: 10,
     padding: 10,
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: "#333333",
+  },
+  blockText: {
+    fontSize: 16,
+    lineHeight: 30,
+    color: "white",
   },
 })
 

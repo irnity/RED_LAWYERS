@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react"
 import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native"
 // redux
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { authActions } from "./redux/authSlice"
 // components
 import Title from "./components/title/Title"
@@ -11,9 +11,12 @@ import TabScreen from "./TabScreen"
 import { auth, firestoreDatabase } from "./services/firebase"
 import { onAuthStateChanged } from "firebase/auth"
 import { doc, getDoc } from "firebase/firestore"
+import MoveY from "./MoveY"
+import { Button } from "react-native"
 
 const OverAll = ({ Tab }) => {
   const dispatch = useDispatch()
+  const { success } = useSelector((state) => state.auth)
 
   const [isLoading, setisLoading] = useState(true)
 
@@ -44,6 +47,15 @@ const OverAll = ({ Tab }) => {
     })
   }, [])
 
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        dispatch(authActions.changeSuccess({ success: false, message: "" }))
+      }, 2000)
+      return () => clearTimeout(timer)
+    } else return
+  }, [success])
+
   if (isLoading) {
     return (
       <View
@@ -66,10 +78,17 @@ const OverAll = ({ Tab }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Title />
-      {/* <View style={styles.congradulation}>
-        <Text>Вітаємо з днем незалежності</Text>
-      </View> */}
+      <View
+        style={{
+          height: 60,
+          backgroundColor: "#f2f2f2",
+        }}
+      >
+        <Title />
+
+        {success && <MoveY />}
+      </View>
+
       <TabScreen />
     </SafeAreaView>
   )
@@ -80,8 +99,10 @@ export default OverAll
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: "relative",
   },
   congradulation: {
+    position: "relative",
     width: "100%",
     height: 50,
     backgroundColor: "tomato",

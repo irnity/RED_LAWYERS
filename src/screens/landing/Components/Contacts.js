@@ -6,24 +6,84 @@ function Contacts() {
   return (
     <View>
       <View style={styles.block}>
-        <Feather name={"instagram"} size={40} color={"tomato"} />
-        <Text style={styles.text}>@red_lawyers</Text>
+        <View
+          style={{
+            width: "15%",
+          }}
+        >
+          <Feather name={"instagram"} size={40} color={"tomato"} />
+        </View>
+        <View
+          style={{
+            width: "85%",
+          }}
+        >
+          <Text style={styles.text}>@red_lawyers</Text>
+        </View>
       </View>
       <View style={styles.block}>
-        <Feather name={"mail"} size={40} color={"tomato"} />
-        <Text style={styles.text}>office@redlawyers.ua</Text>
+        <View
+          style={{
+            width: "15%",
+          }}
+        >
+          <Feather name={"mail"} size={40} color={"tomato"} />
+        </View>
+        <View
+          style={{
+            width: "85%",
+          }}
+        >
+          <Text style={styles.text}>office@redlawyers.ua</Text>
+        </View>
       </View>
       <View style={styles.block}>
-        <Feather name={"map-pin"} size={40} color={"tomato"} />
-        <Text style={styles.text}>Голосіївський проспект, 30Б</Text>
+        <View
+          style={{
+            width: "15%",
+          }}
+        >
+          <Feather name={"map-pin"} size={40} color={"tomato"} />
+        </View>
+        <View
+          style={{
+            width: "85%",
+          }}
+        >
+          <Text style={styles.text}>Київ, Голосіївський проспект, 30Б</Text>
+        </View>
       </View>
       <View style={styles.block}>
-        <Feather name={"phone"} size={40} color={"tomato"} />
-        <Text style={styles.text}>+38 (096) 671 09 63</Text>
+        <View
+          style={{
+            width: "15%",
+          }}
+        >
+          <Feather name={"phone"} size={40} color={"tomato"} />
+        </View>
+        <View
+          style={{
+            width: "85%",
+          }}
+        >
+          <Text style={styles.text}>+38 (096) 671 09 63</Text>
+        </View>
       </View>
       <View style={styles.block}>
-        <Feather name={"phone"} size={40} color={"tomato"} />
-        <Text style={styles.text}>+38 (066) 597 92 22</Text>
+        <View
+          style={{
+            width: "15%",
+          }}
+        >
+          <Feather name={"phone"} size={40} color={"tomato"} />
+        </View>
+        <View
+          style={{
+            width: "85%",
+          }}
+        >
+          <Text style={styles.text}>+38 (066) 597 92 22</Text>
+        </View>
       </View>
     </View>
   )
@@ -40,8 +100,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   text: {
-    fontSize: 20,
-    marginLeft: 10,
+    fontSize: 16,
+    marginLeft: 5,
   },
 })
 

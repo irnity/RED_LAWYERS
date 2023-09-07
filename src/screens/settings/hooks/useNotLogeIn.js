@@ -1,5 +1,6 @@
 import {
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth"
@@ -122,23 +123,17 @@ const useNotLogeIn = ({ navigation }) => {
   }
 
   // handle restore password
-  const handleRestorePassword = () => {
+  const handleRestorePassword = async () => {
     try {
-      sendPasswordResetEmail(auth, Email)
-      setMessage(
-        "Перевірте пошту, ми відправили вам листа на відновлення паролю"
+      await sendPasswordResetEmail(auth, Email)
+      handleGoToLogin()
+      await dispatch(
+        authActions.changeSuccess({ success: true, message: "Перевірте пошту" })
       )
-      // console.log("email was sent")
-      setTimeout(() => {
-        handleGoToLogin()
-      }, 3000)
     } catch (error) {
       const errorCode = error.code
       const errorMessage = error.message
-      alert(errorCode, errorMessage)
-      setTimeout(() => {
-        handleGoToLogin()
-      }, 3000)
+      Alert.alert("Помилка", "Перевірте правильність написання даних")
     }
   }
 

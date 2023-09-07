@@ -8,7 +8,7 @@ import {
 import React from "react"
 import CustomButton from "../../../../components/buttons/CustomButton"
 import useNotLogeIn from "../../hooks/useNotLogeIn"
-
+import CustomHeaderText from "../../../../components/customHeaderText/CustomHeaderText"
 const LogIn = ({ navigation }) => {
   const {
     // login
@@ -29,6 +29,7 @@ const LogIn = ({ navigation }) => {
   return (
     <KeyboardAvoidingView style={styles.container} behavior="height">
       <View style={styles.inputContainer}>
+        <CustomHeaderText text={"Увійти"} />
         <TextInput
           placeholder="Email"
           keyboardType="email-address"
@@ -82,25 +83,23 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: "white",
-    paddingHorizontal: 15,
-    paddingVertical: 10,
+    padding: 10,
     borderRadius: 10,
-    marginTop: 10,
+    marginBottom: 10,
   },
   inputError: {
     backgroundColor: "white",
     borderWidth: 1,
     borderColor: "tomato",
-    paddingHorizontal: 15,
-    paddingVertical: 10,
+    padding: 10,
     borderRadius: 10,
-    marginTop: 5,
+    marginBottom: 10,
   },
   buttonContainer: {
     width: "80%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
+    marginBottom: 10,
   },
   button: {
     backgroundColor: "tomato",

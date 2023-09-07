@@ -18,6 +18,8 @@ import Descriptions from "./Descriptions"
 import { useSelector } from "react-redux"
 import CertificatesList from "./CertificatesList"
 import NeedCertificate from "./NeedCertificate"
+import CustomButton from "../../../components/buttons/CustomButton"
+import CustomHeaderText from "../../../components/customHeaderText/CustomHeaderText"
 
 const Document = () => {
   const { loading } = useCerificates()
@@ -47,7 +49,7 @@ const Document = () => {
             {/* description toggle button*/}
             {/*  */}
             <TouchableOpacity onPress={handleToggel} style={styles.toggelBox}>
-              <Text style={{ fontWeight: "500", fontSize: 20 }}>Стадії</Text>
+              <Text style={{ fontWeight: "500", fontSize: 19 }}>Стадії</Text>
               <Feather
                 name={Icon}
                 size={30}
@@ -64,7 +66,7 @@ const Document = () => {
             {/*  */}
             {/* Fetch Certificates Button*/}
             {/*  */}
-            <View style={{ marginTop: 10 }}>
+            <View>
               {certificateNumber.map((item) => (
                 <CertificatesList item={item} key={item.id} />
               ))}
@@ -85,29 +87,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    marginTop: 10,
   },
   center: {
     alignItems: "center",
   },
   width: {
-    marginTop: 10,
     width: "90%",
   },
 
   //
   // Title text
   //
-  titleText: {
-    fontSize: 25,
-    borderWidth: 1,
-    borderColor: "tomato",
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 10,
-    fontWeight: "500",
-    textAlign: "center",
-  },
   toggelBox: {
+    backgroundColor: "white",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -116,6 +109,7 @@ const styles = StyleSheet.create({
     borderColor: "tomato",
     borderRadius: 10,
     padding: 10,
+    marginBottom: 10,
   },
 
   //

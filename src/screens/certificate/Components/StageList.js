@@ -40,16 +40,17 @@ const styles = StyleSheet.create({
   // Progress
   //
   progress: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "tomato",
+    borderRadius: 10,
     width: "100%",
     height: 85,
-    borderWidth: 1,
-    borderRadius: 10,
-    borderColor: "tomato",
-    flexDirection: "row",
+    backgroundColor: "white",
     justifyContent: "center",
-    alignItems: "center",
-    marginTop: 5,
-    marginBottom: 5,
+    padding: 10,
   },
   statusDone: {
     backgroundColor: "#5cb85c",
@@ -57,7 +58,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 100,
     padding: 5,
-    marginLeft: 5,
     marginRight: 5,
   },
 
@@ -67,17 +67,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 100,
     padding: 5,
-    marginLeft: 5,
     marginRight: 5,
   },
   statusNotDone: {
-    backgroundColor: "#fff",
     color: "tomato",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
     padding: 5,
-    marginLeft: 5,
     marginRight: 5,
   },
   title: {

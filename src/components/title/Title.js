@@ -14,7 +14,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     alignContent: "center",
-    height: "5%",
+    height: 30,
+    position: "relative",
+    backgroundColor: "white",
+    zIndex: 555,
   },
   text: {
     fontSize: 20,

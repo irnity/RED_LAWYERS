@@ -12,7 +12,7 @@ import React from "react"
 import useLogedIn from "../../hooks/useLogedIn"
 import { useDispatch, useSelector } from "react-redux"
 import CustomButton from "../../../../components/buttons/CustomButton"
-
+import CustomHeaderText from "../../../../components/customHeaderText/CustomHeaderText"
 const ChangeName = ({ navigation }) => {
   const { isLogedIn } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
@@ -29,9 +29,12 @@ const ChangeName = ({ navigation }) => {
   } = useLogedIn({ navigation })
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps={"handled"}
+    >
       <SafeAreaView style={styles.container}>
-        <Text style={styles.headerText}>Зміна Імені та Прізвища</Text>
+        <CustomHeaderText text={"Зміна Імені та Прізвища"} />
         <KeyboardAvoidingView style={styles.box} behavior="padding">
           <View style={styles.personalInfoContainer}>
             <View>
@@ -57,8 +60,7 @@ const ChangeName = ({ navigation }) => {
               />
             </View>
           </View>
-
-          <View>
+          <View style={styles.buttonContainer}>
             <CustomButton
               color={"red"}
               text={"Змінити дані"}
@@ -85,25 +87,21 @@ const styles = StyleSheet.create({
     color: "tomato",
   },
   container: {
-    marginTop: 10,
     flex: 1,
     alignItems: "center",
   },
   box: {
     flex: 1,
-    marginTop: 10,
-    width: "80%",
+    width: "90%",
   },
-  personalInfoContainer: {
-    marginBottom: 20,
-  },
+  personalInfoContainer: {},
   input: {
     backgroundColor: "white",
     padding: 15,
     borderRadius: 10,
     borderColor: "tomato",
     borderWidth: 1,
-    marginTop: 15,
+    marginBottom: 10,
     width: "100%",
     fontSize: 16,
   },
@@ -112,7 +110,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     borderWidth: 1,
-    marginTop: 15,
+    marginBottom: 10,
     width: "100%",
     fontSize: 16,
     borderColor: "#45c71e",
@@ -120,6 +118,12 @@ const styles = StyleSheet.create({
   inputIncorrect: {
     borderWidth: 1,
     borderColor: "#f01d1d",
+  },
+  buttonContainer: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
   },
   button: {
     backgroundColor: "white",
@@ -130,7 +134,7 @@ const styles = StyleSheet.create({
     width: 300,
     padding: 15,
     borderRadius: 10,
-    marginTop: 25,
+    marginBottom: 10,
     // alignItems: "center",
   },
   buttonOutlineText: {
