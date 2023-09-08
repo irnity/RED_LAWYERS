@@ -4,8 +4,8 @@ import { View, Animated, StyleSheet } from "react-native"
 import { useSelector } from "react-redux"
 
 const MoveY = () => {
-  const startValue = useRef(new Animated.Value(-50)).current
-  const endValue = 0
+  const startValue = useRef(new Animated.Value(0)).current
+  const endValue = 1
   const duration = 500
 
   const { message } = useSelector((state) => state.auth)
@@ -24,11 +24,7 @@ const MoveY = () => {
         style={[
           styles.square,
           {
-            transform: [
-              {
-                translateY: startValue,
-              },
-            ],
+            opacity: startValue,
           },
         ]}
       >
@@ -45,7 +41,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "relative",
     width: "100%",
-    zIndex: 1,
+    zIndex: 2,
   },
   square: {
     width: "100%",

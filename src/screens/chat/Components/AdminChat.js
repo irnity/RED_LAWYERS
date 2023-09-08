@@ -19,6 +19,7 @@ import {
 import { firestoreDatabase } from "../../../services/firebase"
 import { authActions } from "../../../redux/authSlice"
 import CustomActivityIndicator from "../../../components/activityIndicator/CustomActivityIndicator"
+import CustomHeaderText from "../../../components/customHeaderText/CustomHeaderText"
 
 const AdminChat = ({ navigation }) => {
   const [chats, setChats] = useState([])
@@ -41,8 +42,9 @@ const AdminChat = ({ navigation }) => {
     )
   }
 
-  const handleChat = async (id) => {
-    await dispatch(authActions.chageUID(id))
+  const handleChat = async ({ id, name, surname }) => {
+    dispatch(authActions.chageUID(id))
+    dispatch(authActions.changeUserChatInfo({ name, surname }))
     navigation.navigate("UserChat")
     const update = await updateDoc(doc(firestoreDatabase, "users", id), {
       unreadMessages: 0,
@@ -53,50 +55,61 @@ const AdminChat = ({ navigation }) => {
     fetchUsersMessages()
   }, [])
 
+  if (chats.length === 0) {
+    return <CustomActivityIndicator />
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Чати з клієнтами</Text>
-      {chats.length === 0 ? (
-        <CustomActivityIndicator />
-      ) : (
-        <FlatList
-          data={chats}
-          style={{ width: "100%" }}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => {
-            day = new Date(item.lastMessageTime.seconds * 1000).toDateString()
-            let time = new Date(
-              item.lastMessageTime.seconds * 1000
-            ).toLocaleTimeString()
-            let current = time
-            if (new Date().toDateString() !== day) {
-              current = day
-            }
+      <CustomHeaderText text={"Чати з клієнтами"} />
 
-            return (
-              <TouchableOpacity onPress={() => handleChat(item.id)}>
-                <View style={styles.chatContainer}>
-                  <View style={styles.user}>
-                    <Text
-                      style={styles.name}
-                    >{`${item.first_name} ${item.last_name}`}</Text>
-                    <Text style={styles.unreadMessages}>
-                      Непрочитаних: {item.unreadMessages}
-                    </Text>
-                  </View>
-                  <View style={styles.message}>
-                    <Text style={styles.lastMessage}>{`${item.lastMessage.slice(
-                      0,
-                      50
-                    )}`}</Text>
-                    <Text style={styles.date}>{`${current}`}</Text>
-                  </View>
+      <FlatList
+        data={chats}
+        style={{ width: "100%" }}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => {
+          let day = new Date(
+            item.lastMessageTime.seconds * 1000
+          ).toLocaleDateString()
+          let time = new Date(
+            item.lastMessageTime.seconds * 1000
+          ).toLocaleTimeString()
+          let current = time
+          if (new Date().toDateString() !== day) {
+            current = day
+          }
+
+          return (
+            <TouchableOpacity
+              onPress={() =>
+                handleChat({
+                  id: item.id,
+                  name: item.first_name,
+                  surname: item.last_name,
+                })
+              }
+            >
+              <View style={styles.chatContainer}>
+                <View style={styles.user}>
+                  <Text
+                    style={styles.name}
+                  >{`${item.first_name} ${item.last_name}`}</Text>
+                  <Text style={styles.lastMessage}>
+                    Повідомлення:
+                    {`${item.lastMessage.slice(0, 50)}`}
+                  </Text>
                 </View>
-              </TouchableOpacity>
-            )
-          }}
-        />
-      )}
+                <View style={styles.message}>
+                  <Text style={styles.unreadMessages}>
+                    Нових: {item.unreadMessages}
+                  </Text>
+                  <Text style={styles.date}>Час: {`${current}`}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          )
+        }}
+      />
     </View>
   )
 }
@@ -107,70 +120,44 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-
     justifyContent: "center",
   },
-  header: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 10,
-    marginTop: 10,
-    padding: 10,
-    // color: "white",
-    borderColor: "tomato",
-    borderRadius: 10,
-    borderWidth: 1,
-    textAlign: "center",
-    // backgroundColor: "tomato",
-  },
+
   chatContainer: {
     flex: 1,
+    width: "100%",
     alignItems: "flex-start",
     justifyContent: "center",
     borderColor: "tomato",
     padding: 10,
-    marginTop: 5,
     backgroundColor: "white",
+    marginBottom: 10,
   },
   user: {
-    // marginBottom: 5,
-    flexDirection: "row",
-    alignItems: "center",
+    width: "100%",
   },
   message: {
-    flexDirection: "row",
+    width: "100%",
   },
   name: {
-    width: "50%",
+    width: "100%",
     fontSize: 16,
-    fontWeight: "bold",
     padding: 5,
-    // borderWidth: 1,
   },
   unreadMessages: {
-    width: "50%",
+    width: "100%",
     fontSize: 16,
-    fontWeight: "bold",
     color: "tomato",
-    marginLeft: 5,
-    marginRight: 5,
     padding: 5,
-    textAlign: "right",
-    // borderWidth: 1,
   },
   lastMessage: {
+    width: "100%",
     fontSize: 16,
-    fontWeight: "bold",
-    width: "75%",
     padding: 5,
   },
   date: {
     fontSize: 16,
-    marginLeft: 5,
-    marginRight: 5,
-    width: "25%",
-    textAlign: "center",
+    width: "100%",
     padding: 5,
-    // borderWidth: 1,
   },
 })

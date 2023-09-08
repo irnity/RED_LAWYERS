@@ -48,7 +48,11 @@ const useNotLogeIn = ({ navigation }) => {
   // login
   const handleLogin = async () => {
     try {
-      const user = await signInWithEmailAndPassword(auth, Email, Password)
+      const user = await signInWithEmailAndPassword(
+        auth,
+        Email.trim(),
+        Password.trim()
+      )
       const data = {
         uid: user.user.uid,
         first_name: "",
@@ -85,17 +89,21 @@ const useNotLogeIn = ({ navigation }) => {
       lastNameInput !== ""
     ) {
       try {
-        const user = await createUserWithEmailAndPassword(auth, Email, Password)
+        const user = await createUserWithEmailAndPassword(
+          auth,
+          Email.trim(),
+          Password.trim()
+        )
         const data = {
           uid: user.user.uid,
-          first_name: firstNameInput,
-          last_name: lastNameInput,
+          first_name: firstNameInput.trim(),
+          last_name: lastNameInput.trim(),
           certificate: [],
         }
         await setDoc(doc(firestoreDatabase, "users", user.user.uid), {
-          email: Email,
-          first_name: firstNameInput,
-          last_name: lastNameInput,
+          email: Email.trim(),
+          first_name: firstNameInput.trim(),
+          last_name: lastNameInput.trim(),
           certificate: [],
           lastMessageTime: Timestamp.now(),
           lastMessage: "",
@@ -125,7 +133,7 @@ const useNotLogeIn = ({ navigation }) => {
   // handle restore password
   const handleRestorePassword = async () => {
     try {
-      await sendPasswordResetEmail(auth, Email)
+      await sendPasswordResetEmail(auth, Email.trim())
       handleGoToLogin()
       await dispatch(
         authActions.changeSuccess({ success: true, message: "Перевірте пошту" })

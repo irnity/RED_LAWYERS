@@ -1,6 +1,6 @@
 // react
 import React from "react"
-import { StyleSheet, SafeAreaView, View } from "react-native"
+import { StyleSheet, SafeAreaView, View, Text } from "react-native"
 import useChat from "./hooks/useChat"
 // components
 import ChatElement from "./Components/ChatElement"
@@ -10,10 +10,12 @@ import NotLogedIn from "../../components/notLogedIn/NotLogedIn"
 // redux
 import { useDispatch, useSelector } from "react-redux"
 import CustomButton from "../../components/buttons/CustomButton"
+import CustomHeaderText from "../../components/customHeaderText/CustomHeaderText"
 
 function Chat({ navigation }) {
   const dispatch = useDispatch()
-  const { isAdmin, isLogedIn, uid } = useSelector((state) => state.auth)
+  const { isAdmin, isLogedIn, uid, userChatName, userChatSurname } =
+    useSelector((state) => state.auth)
   const {
     isLoading,
     data,
@@ -36,15 +38,17 @@ function Chat({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       {isAdmin && (
-        <View style={styles.button}>
-          <CustomButton
-            color={"white"}
-            text={"Повернутися до адмін чату"}
-            handler={goToAdminChat}
-          />
-        </View>
+        <>
+          <View style={styles.button}>
+            <CustomButton
+              color={"white"}
+              text={"Aдмін чат"}
+              handler={goToAdminChat}
+            />
+          </View>
+          <CustomHeaderText text={`${userChatName} ${userChatSurname}`} />
+        </>
       )}
-
       <ChatElement
         data={data}
         message={message}
@@ -65,7 +69,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   button: {
-    width: "95%",
+    width: "90%",
+    marginBottom: -10,
   },
 })
 

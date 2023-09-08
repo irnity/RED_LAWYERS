@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     height: 30,
     position: "relative",
     backgroundColor: "white",
-    zIndex: 555,
+    zIndex: 1,
   },
   text: {
     fontSize: 20,

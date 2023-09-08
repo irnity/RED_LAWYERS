@@ -66,7 +66,7 @@ const useChat = ({ navigation }) => {
     const responce = await addDoc(
       collection(firestoreDatabase, "messages", uid, "messages"),
       {
-        message: message,
+        message: message.trim(),
         by: isAdmin ? "admin" : "user",
         createdAt: Timestamp.now(),
       }

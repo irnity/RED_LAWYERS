@@ -37,13 +37,13 @@ const useLogedIn = ({ navigation }) => {
     if (isLogedIn) {
       ref = doc(firestoreDatabase, "users", uid)
       await updateDoc(ref, {
-        first_name: firstNameInput,
-        last_name: lastNameInput,
+        first_name: firstNameInput.trim(),
+        last_name: lastNameInput.trim(),
       })
       dispatch(
         authActions.changeName({
-          first_name: firstNameInput,
-          last_name: lastNameInput,
+          first_name: firstNameInput.trim(),
+          last_name: lastNameInput.trim(),
         })
       )
       navigation.navigate("Профіль", { screen: "Menu" })

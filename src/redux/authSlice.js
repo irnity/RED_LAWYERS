@@ -11,6 +11,8 @@ const initialAuthState = {
   uid: "",
   success: false,
   message: "",
+  userChatName: "",
+  userChatSurname: "",
 }
 
 const KEYS = [
@@ -48,6 +50,11 @@ const authSlice = createSlice({
       state.uid = actions.payload
       console.log(state)
     },
+    changeUserChatInfo: (state, actions) => {
+      state.userChatName = actions.payload.name
+      state.userChatSurname = actions.payload.surname
+    },
+
     changeCertificate: (state, actions) => {
       state.certificateNumber = actions.payload
       console.log(state)

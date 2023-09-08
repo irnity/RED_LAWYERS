@@ -80,13 +80,22 @@ const OverAll = ({ Tab }) => {
     <SafeAreaView style={styles.container}>
       <View
         style={{
-          height: 60,
+          height: 30,
           backgroundColor: "#f2f2f2",
         }}
       >
+        {success && (
+          <View
+            style={{
+              position: "absolute",
+              zIndex: 2,
+              width: "100%",
+            }}
+          >
+            <MoveY />
+          </View>
+        )}
         <Title />
-
-        {success && <MoveY />}
       </View>
 
       <TabScreen />

@@ -6,30 +6,54 @@ const Descriptions = () => {
   return (
     <>
       <View style={styles.descriptionBox}>
-        <Feather
-          style={styles.statusNotDone}
-          name={"x-square"}
-          size={35}
-          color={"white"}
-        />
+        <View
+          style={{
+            borderRadius: 100,
+            backgroundColor: "white",
+            marginRight: 5,
+          }}
+        >
+          <Feather
+            style={styles.statusNotDone}
+            name={"x-square"}
+            size={35}
+            color={"tomato"}
+          />
+        </View>
         <Text>Запланована стадія</Text>
       </View>
       <View style={styles.descriptionBox}>
-        <Feather
-          style={styles.statusInProcess}
-          name={"minimize"}
-          size={35}
-          color={"white"}
-        />
+        <View
+          style={{
+            borderRadius: 100,
+            backgroundColor: "#037fe2",
+            marginRight: 5,
+          }}
+        >
+          <Feather
+            style={styles.statusInProcess}
+            name={"minimize"}
+            size={35}
+            color={"white"}
+          />
+        </View>
         <Text>Поточна стадія</Text>
       </View>
       <View style={styles.descriptionBox}>
-        <Feather
-          style={styles.statusDone}
-          name={"check"}
-          size={35}
-          color={"white"}
-        />
+        <View
+          style={{
+            borderRadius: 100,
+            backgroundColor: "#5cb85c",
+            marginRight: 5,
+          }}
+        >
+          <Feather
+            style={styles.statusDone}
+            name={"check"}
+            size={35}
+            color={"white"}
+          />
+        </View>
         <Text>Пройдена стадія</Text>
       </View>
     </>
@@ -54,28 +78,22 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   statusDone: {
-    backgroundColor: "#5cb85c",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
     padding: 5,
-    marginRight: 5,
   },
 
   statusInProcess: {
-    backgroundColor: "#037fe2",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
     padding: 5,
-    marginRight: 5,
   },
   statusNotDone: {
-    color: "tomato",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
     padding: 5,
-    marginRight: 5,
   },
 })

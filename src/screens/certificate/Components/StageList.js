@@ -7,24 +7,34 @@ const StageList = ({ item }) => {
   return (
     <View style={styles.progress}>
       <View>
-        <Feather
+        <View
           style={
             item.status === "done"
-              ? styles.statusDone
+              ? styles.statusDoneBox
               : item.status === "current"
-              ? styles.statusInProcess
-              : styles.statusNotDone
+              ? styles.statusInProcessBox
+              : styles.statusNotDoneBox
           }
-          name={
-            item.status === "done"
-              ? "check"
-              : item.status === "current"
-              ? "minimize"
-              : "x-square"
-          }
-          size={35}
-          color={"white"}
-        />
+        >
+          <Feather
+            style={
+              item.status === "done"
+                ? styles.statusDone
+                : item.status === "current"
+                ? styles.statusInProcess
+                : styles.statusNotDone
+            }
+            name={
+              item.status === "done"
+                ? "check"
+                : item.status === "current"
+                ? "minimize"
+                : "x-square"
+            }
+            size={35}
+            color={"white"}
+          />
+        </View>
       </View>
       <View style={styles.title}>
         <Text>{item.title}</Text>
@@ -52,22 +62,34 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 10,
   },
-  statusDone: {
-    backgroundColor: "#5cb85c",
-    justifyContent: "center",
-    alignItems: "center",
+  statusDoneBox: {
     borderRadius: 100,
-    padding: 5,
+    backgroundColor: "#5cb85c",
     marginRight: 5,
   },
 
-  statusInProcess: {
+  statusInProcessBox: {
+    borderRadius: 100,
     backgroundColor: "#037fe2",
+    marginRight: 5,
+  },
+  statusNotDoneBox: {
+    borderRadius: 100,
+    backgroundColor: "white",
+    marginRight: 5,
+  },
+  statusDone: {
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
     padding: 5,
-    marginRight: 5,
+  },
+
+  statusInProcess: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+    padding: 5,
   },
   statusNotDone: {
     color: "tomato",
@@ -75,7 +97,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 100,
     padding: 5,
-    marginRight: 5,
   },
   title: {
     justifyContent: "center",

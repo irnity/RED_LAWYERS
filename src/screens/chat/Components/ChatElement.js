@@ -1,5 +1,7 @@
 import {
   FlatList,
+  KeyboardAvoidingView,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
@@ -24,7 +26,11 @@ const ChatElement = ({
 
   return (
     <>
-      <View style={styles.constainer}>
+      <KeyboardAvoidingView
+        style={styles.constainer}
+        behavior={"position"}
+        keyboardVerticalOffset={80}
+      >
         <View style={styles.boxForFlatList}>
           {data.length === 0 && isLogedIn === false ? (
             <View
@@ -83,21 +89,22 @@ const ChatElement = ({
             placeholder="Напишіть ваше повідомлення"
             style={styles.input}
             maxLength={100}
-            multiline
+            multiline={true}
             value={message}
             onChangeText={(text) => {
               setMessage(text)
             }}
           />
+
           <TouchableOpacity
             style={styles.button}
             onPress={sendMessage}
             disabled={message.length === 0}
           >
-            <Feather style={styles.send} name="send" size={24} color="white" />
+            <Feather style={styles.send} name="send" size={25} color="white" />
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </>
   )
 }
@@ -155,20 +162,20 @@ const styles = StyleSheet.create({
 
   input: {
     backgroundColor: "white",
-    padding: 10,
-    height: 50,
+    padding: 7,
+    paddingTop: 10,
+    height: 40,
     borderRadius: 10,
-    // marginLeft: 5,
     width: "78%",
-    fontSize: 15,
+    fontSize: 12,
   },
   button: {
-    height: 50,
+    height: 40,
     backgroundColor: "tomato",
-    padding: 10,
     borderRadius: 10,
     width: "20%",
     // marginRight: 5,
+    justifyContent: "center",
     alignItems: "center",
   },
   send: {
